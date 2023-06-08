@@ -12,13 +12,20 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Center(child: NamePixmania()),
-                Text('Login'),
+                Text("Let's share the precious moments"),
+                Row(
+                  children: [
+                    Text(
+                      'Login',
+                    ),
+                  ],
+                ),
                 kbox20,
                 CustomFormfield(
                   controller: userIdController,
@@ -37,7 +44,7 @@ class LoginScreen extends StatelessWidget {
                 kbox10,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
+                  children: const [
                     Text(
                       'Forget Password?',
                       style: TextStyle(color: Color.fromARGB(255, 7, 49, 121)),
@@ -46,22 +53,19 @@ class LoginScreen extends StatelessWidget {
                 ),
                 kbox30,
                 kbox20,
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: const [
-                      Expanded(
-                        child: Divider(
-                          thickness: 1,
-                        ),
-                      ),
-                      Text("  OR  "),
-                      Expanded(
-                          child: Divider(
+                Row(
+                  children: const [
+                    Expanded(
+                      child: Divider(
                         thickness: 1,
-                      ))
-                    ],
-                  ),
+                      ),
+                    ),
+                    Text("  OR  "),
+                    Expanded(
+                        child: Divider(
+                      thickness: 1,
+                    ))
+                  ],
                 ),
                 kbox30,
                 Row(

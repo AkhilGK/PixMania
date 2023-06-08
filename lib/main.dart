@@ -1,6 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pixmania/screens/splash_screen.dart';
+import 'package:pixmania/services/auth.dart';
+import 'package:pixmania/user%20model/model.dart';
+import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 
@@ -16,11 +19,15 @@ class PixMania extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: SplashScreen(),
-        theme: ThemeData(
-            scaffoldBackgroundColor: Color.fromARGB(255, 221, 247, 236),
-            primarySwatch: Colors.green,
-            primaryColor: Colors.greenAccent));
+    return StreamProvider<UserModel?>.value(
+      value: AuthServices().userLog,
+      initialData: null,
+      child: MaterialApp(
+          home: SplashScreen(),
+          theme: ThemeData(
+              scaffoldBackgroundColor: Color.fromARGB(255, 221, 247, 236),
+              primarySwatch: Colors.green,
+              primaryColor: Colors.greenAccent)),
+    );
   }
 }

@@ -17,6 +17,6 @@ class HomeScreen extends StatelessWidget {
   }
 
   void sign() {
-    print('fdsh');
+    print('janna');
   }
 }

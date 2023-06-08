@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pixmania/screens/login_screen.dart';
+import 'package:pixmania/screens/authenticate/login_screen.dart';
+import 'package:pixmania/screens/wrapper.dart';
+import 'package:pixmania/services/auth.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatelessWidget {
   SplashScreen({super.key});
@@ -18,7 +21,7 @@ class SplashScreen extends StatelessWidget {
   Future goto(BuildContext ctx) async {
     await Future.delayed(Duration(seconds: 3));
     Navigator.of(ctx).push(MaterialPageRoute(
-      builder: (context) => LoginScreen(),
+      builder: (context) => Wrapper(),
     ));
   }
 }

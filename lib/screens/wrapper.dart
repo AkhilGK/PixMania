@@ -1,0 +1,13 @@
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:pixmania/screens/authenticate/login_screen.dart';
+import 'package:pixmania/screens/home_screen/home_screen.dart';
+
+class Wrapper extends StatelessWidget {
+  const Wrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return LoginScreen();
+  }
+}
