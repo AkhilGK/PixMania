@@ -17,15 +17,24 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -43,40 +52,11 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBQy51_tmlps3_g-_MoqfcGYhTa0BsRfFY',
-    appId: '1:788124595860:web:b0a6c81b3b3a13171de681',
-    messagingSenderId: '788124595860',
-    projectId: 'pixmania-182c7',
-    authDomain: 'pixmania-182c7.firebaseapp.com',
-    storageBucket: 'pixmania-182c7.appspot.com',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyA8bNpQQdFBC6K9jIvM583v6RXQa3Gk2fc',
     appId: '1:788124595860:android:dc1a87a1f2c7901c1de681',
     messagingSenderId: '788124595860',
     projectId: 'pixmania-182c7',
     storageBucket: 'pixmania-182c7.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBESA49lKVgl-0_6iLWZvvJ_09uLKS_E34',
-    appId: '1:788124595860:ios:cccd4da51c4b63311de681',
-    messagingSenderId: '788124595860',
-    projectId: 'pixmania-182c7',
-    storageBucket: 'pixmania-182c7.appspot.com',
-    iosClientId: '788124595860-npp762pk9tr09hg4j8ajdqoqou95ecun.apps.googleusercontent.com',
-    iosBundleId: 'com.example.pixmania',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBESA49lKVgl-0_6iLWZvvJ_09uLKS_E34',
-    appId: '1:788124595860:ios:cccd4da51c4b63311de681',
-    messagingSenderId: '788124595860',
-    projectId: 'pixmania-182c7',
-    storageBucket: 'pixmania-182c7.appspot.com',
-    iosClientId: '788124595860-npp762pk9tr09hg4j8ajdqoqou95ecun.apps.googleusercontent.com',
-    iosBundleId: 'com.example.pixmania',
   );
 }

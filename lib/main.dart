@@ -4,14 +4,14 @@ import 'package:pixmania/screens/splash_screen.dart';
 import 'package:pixmania/services/auth.dart';
 import 'package:pixmania/user%20model/model.dart';
 import 'package:provider/provider.dart';
-
 import 'firebase_options.dart';
 
 void main() async {
-  runApp(const PixMania());
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  runApp(const PixMania());
 }
 
 class PixMania extends StatelessWidget {
@@ -26,7 +26,7 @@ class PixMania extends StatelessWidget {
           home: SplashScreen(),
           theme: ThemeData(
               scaffoldBackgroundColor: Color.fromARGB(255, 221, 247, 236),
-              primarySwatch: Colors.green,
+              primarySwatch: Colors.teal,
               primaryColor: Colors.greenAccent)),
     );
   }

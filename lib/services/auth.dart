@@ -16,4 +16,50 @@ class AuthServices {
         .authStateChanges()
         .map((User? user) => getUserFromfirebase(user));
   }
+
+// register using email and  password
+  Future registerWithEmailAndPAssword(String email, String password) async {
+    try {
+      UserCredential result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      User? user = result.user;
+      return getUserFromfirebase(user!);
+    } catch (e) {
+      if (e is FirebaseAuthException) {
+        if (e.code == 'email-already-in-use') {
+          return 'email-already-in-use';
+        }
+      }
+      print(e.toString());
+      return null;
+    }
+  }
+
+  // login using email and  password
+  Future logInWithEmailAndPassword(String email, String password) async {
+    try {
+      UserCredential result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      User? user = result.user;
+      return getUserFromfirebase(user!);
+    } catch (e) {
+      if (e is FirebaseAuthException) {
+        if (e.code == 'user-not-found') {
+          return 'user-not-found';
+        }
+      }
+      print(e.toString());
+      return null;
+    }
+  }
+
+  // signing out
+  Future signout() async {
+    try {
+      return await _auth.signOut();
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
 }

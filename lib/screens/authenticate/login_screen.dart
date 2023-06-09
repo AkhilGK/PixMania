@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pixmania/basic_widgets/button.dart';
 import 'package:pixmania/basic_widgets/formfield.dart';
 import 'package:pixmania/basic_widgets/name_logo.dart';
 import 'package:pixmania/constants/constants.dart';
+import 'package:pixmania/screens/authenticate/sign_up.dart';
+import 'package:pixmania/services/auth.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
   final TextEditingController userIdController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  AuthServices auth = AuthServices();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,12 +23,18 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Center(child: NamePixmania()),
-                Text("Let's share the precious moments"),
+                kbox30,
+                const Center(child: NamePixmania()),
+                Text("Let's share the precious moments",
+                    style: GoogleFonts.monoton(fontSize: 16)),
+                kbox30,
                 Row(
-                  children: [
+                  children: const [
                     Text(
                       'Login',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
                     ),
                   ],
                 ),
@@ -34,13 +46,22 @@ class LoginScreen extends StatelessWidget {
                 ),
                 kbox20,
                 CustomFormfield(
-                  controller: userIdController,
+                  controller: passwordController,
                   label: 'Password',
                   hintText: 'Enter your pasword',
+                  obscureText: true,
                 ),
                 kbox30,
                 kbox30,
-                SubmitButton(title: 'Log In', function: dummy),
+                // ElevatedButton(
+                //     onPressed: () async {
+                //       await auth.logInWithEmailAndPassword(
+                //         userIdController.text.trim(),
+                //         passwordController.text.trim(),
+                //       );
+                //     },
+                //     child: Text("Login")),
+                SubmitButton(title: 'Log In', onpressfun: _signInButtonPressed),
                 kbox10,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -77,7 +98,7 @@ class LoginScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
                       ),
-                      child: Icon(Icons.mail),
+                      child: const Icon(Icons.mail),
                     ),
                     Container(
                       height: 50,
@@ -85,18 +106,26 @@ class LoginScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
                       ),
-                      child: Icon(Icons.phone),
+                      child: const Icon(Icons.phone),
                     )
                   ],
                 ),
                 kbox30,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text("Don't have an account "),
-                    Text(
-                      'Sign up.',
-                      style: TextStyle(color: Color.fromARGB(255, 7, 49, 121)),
+                  children: [
+                    const Text("Don't have an account "),
+                    GestureDetector(
+                      child: const Text(
+                        'Sign up.',
+                        style:
+                            TextStyle(color: Color.fromARGB(255, 7, 49, 121)),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => SignUp(),
+                        ));
+                      },
                     )
                   ],
                 )
@@ -108,7 +137,14 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  void dummy() {
-    print('logged in');
+  void _signInButtonPressed() async {
+    try {
+      await auth.logInWithEmailAndPassword(
+        userIdController.text.trim(),
+        passwordController.text.trim(),
+      );
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }
