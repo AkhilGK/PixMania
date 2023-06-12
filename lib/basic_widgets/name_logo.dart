@@ -8,8 +8,8 @@ class NamePixmania extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity, // Adjust the width as needed
-      height: 80, // Adjust the height as needed
+      width: double.infinity,
+      height: 80,
       decoration: BoxDecoration(
         // color: Colors.white, // Optional container color
         borderRadius: BorderRadius.circular(10), // Optional border radius
