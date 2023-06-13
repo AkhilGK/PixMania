@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pixmania/basic_widgets/appbar.dart';
 import 'package:pixmania/basic_widgets/button.dart';
 import 'package:pixmania/basic_widgets/formfield.dart';
-import 'package:pixmania/basic_widgets/name_logo.dart';
+import 'package:pixmania/basic_widgets/mail_fb_sign.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/screens/authenticate/sign_up.dart';
 import 'package:pixmania/services/auth.dart';
-
-import '../../basic_widgets/name_card.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -20,14 +19,12 @@ class LoginScreen extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        flexibleSpace: const CustomAppbar(),
         title: Image.asset("assets/logo/logo_transparent.png"),
         automaticallyImplyLeading: false,
-        toolbarHeight: 150,
-        backgroundColor: Colors.white,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-          bottom: Radius.circular(50),
-        )),
+        toolbarHeight: 130,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -48,7 +45,7 @@ class LoginScreen extends StatelessWidget {
                         Text(
                           'Login',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 22,
                           ),
                         ),
                       ],
@@ -59,14 +56,14 @@ class LoginScreen extends StatelessWidget {
                       label: 'E-mail',
                       hintText: 'Enter your usermail',
                     ),
-                    kbox20,
+
                     CustomFormfield(
                       controller: passwordController,
                       label: 'Password',
                       hintText: 'Enter your pasword',
                       obscureText: true,
                     ),
-                    kbox20,
+
                     // ElevatedButton(
                     //     onPressed: () async {
                     //       await auth.logInWithEmailAndPassword(
@@ -107,23 +104,9 @@ class LoginScreen extends StatelessWidget {
                     kbox30,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          child: const Icon(Icons.mail),
-                        ),
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          child: const Icon(Icons.phone),
-                        )
+                      children: const [
+                        SignInOptions(imagePath: 'assets/sign_in/google.png'),
+                        SignInOptions(imagePath: 'assets/sign_in/fb_img.png'),
                       ],
                     ),
                     kbox30,

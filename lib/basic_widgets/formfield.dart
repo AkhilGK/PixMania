@@ -17,7 +17,7 @@ class CustomFormfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(16.0),
       child: TextFormField(
         validator: (value) {
           if (value == null ||
@@ -32,14 +32,15 @@ class CustomFormfield extends StatelessWidget {
         // keyboardType: TextInputType.number,
         // maxLength: 12,
         decoration: InputDecoration(
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-            hintText: hintText,
-            labelText: label,
-            disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50),
-            ),
-            enabledBorder:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(20))),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+          hintText: hintText,
+          labelText: label,
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
+          ),
+          enabledBorder:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(50)),
+        ),
       ),
     );
   }
