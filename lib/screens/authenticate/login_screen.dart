@@ -5,14 +5,27 @@ import 'package:pixmania/basic_widgets/button.dart';
 import 'package:pixmania/basic_widgets/formfield.dart';
 import 'package:pixmania/basic_widgets/mail_fb_sign.dart';
 import 'package:pixmania/constants/constants.dart';
+import 'package:pixmania/screens/authenticate/forget_password.dart';
 import 'package:pixmania/screens/authenticate/sign_up.dart';
 import 'package:pixmania/services/auth.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController userIdController = TextEditingController();
+
   final TextEditingController passwordController = TextEditingController();
+
   AuthServices auth = AuthServices();
+
+  final formkey = GlobalKey<FormState>();
+  String error = '';
+  bool isLoading = true;
 
   @override
   Widget build(BuildContext context) {
@@ -75,13 +88,21 @@ class LoginScreen extends StatelessWidget {
                     SubmitButton(
                         title: 'Log In', onpressfun: _signInButtonPressed),
                     kbox10,
+                    isLoading ? Text(error) : const CircularProgressIndicator(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
-                      children: const [
-                        Text(
-                          'Forget Password?',
-                          style:
-                              TextStyle(color: Color.fromARGB(255, 7, 49, 121)),
+                      children: [
+                        GestureDetector(
+                          child: const Text(
+                            'Forget Password?',
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 7, 49, 121)),
+                          ),
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const ForgetPassword(),
+                            ));
+                          },
                         )
                       ],
                     ),
@@ -106,6 +127,9 @@ class LoginScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
                         SignInOptions(imagePath: 'assets/sign_in/google.png'),
+                        SizedBox(
+                          width: 15,
+                        ),
                         SignInOptions(imagePath: 'assets/sign_in/fb_img.png'),
                       ],
                     ),
@@ -122,7 +146,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => SignUp(),
+                              builder: (context) => const SignUp(),
                             ));
                           },
                         )
@@ -139,13 +163,39 @@ class LoginScreen extends StatelessWidget {
   }
 
   void _signInButtonPressed() async {
-    try {
-      await auth.logInWithEmailAndPassword(
+    if (formkey.currentState?.validate() ?? false) {
+      setState(() {
+        isLoading = true;
+      });
+
+      dynamic result = await auth.logInWithEmailAndPassword(
         userIdController.text.trim(),
         passwordController.text.trim(),
       );
-    } catch (e) {
-      print(e.toString());
+
+      if (result == null) {
+        setState(() {
+          error = "Sign In Failed !, Incorrect username or password.";
+        });
+      } else if (result == 'user-not-found') {
+        setState(() {
+          error = "Sign In Failed, User not found.";
+        });
+      } else {
+        print("Signed In");
+      }
+
+      setState(() {
+        isLoading = false;
+      });
     }
+    // try {
+    //   await auth.logInWithEmailAndPassword(
+    //     userIdController.text.trim(),
+    //     passwordController.text.trim(),
+    //   );
+    // } catch (e) {
+    //   print(e.toString());
+    // }
   }
 }

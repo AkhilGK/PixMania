@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class CustomFormfield extends StatelessWidget {
-  CustomFormfield(
+  const CustomFormfield(
       {super.key,
       required this.controller,
       this.hintText,
@@ -32,7 +32,7 @@ class CustomFormfield extends StatelessWidget {
         // keyboardType: TextInputType.number,
         // maxLength: 12,
         decoration: InputDecoration(
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(50)),
           hintText: hintText,
           labelText: label,
           disabledBorder: OutlineInputBorder(

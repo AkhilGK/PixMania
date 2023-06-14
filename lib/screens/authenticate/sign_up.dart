@@ -7,7 +7,7 @@ import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/services/auth.dart';
 
 class SignUp extends StatefulWidget {
-  SignUp({super.key});
+  const SignUp({super.key});
 
   @override
   State<SignUp> createState() => _SignUpState();
@@ -17,10 +17,13 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController userIdController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmController = TextEditingController();
+
   final formkey = GlobalKey<FormState>();
   String error = '';
 
   AuthServices auth = AuthServices();
+  bool isLoading = true;
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +68,15 @@ class _SignUpState extends State<SignUp> {
                     hintText: 'Enter your pasword',
                     obscureText: true,
                   ),
+                  CustomFormfield(
+                    controller: confirmController,
+                    label: 'Confirm Password',
+                    hintText: 'Confirm pasword',
+                    obscureText: true,
+                  ),
                   SubmitButton(
                       title: 'Register', onpressfun: _registerButtonPressed),
-                  Text(error),
+                  isLoading ? Text(error) : const CircularProgressIndicator(),
                 ],
               ),
             ),
@@ -78,7 +87,15 @@ class _SignUpState extends State<SignUp> {
   }
 
   void _registerButtonPressed() async {
-    if (formkey.currentState?.validate() ?? false) {
+    if (passwordController.text != confirmController.text) {
+      setState(() {
+        error = "Password doesn't match";
+        return;
+      });
+    } else if (formkey.currentState?.validate() ?? false) {
+      setState(() {
+        isLoading = false;
+      });
       dynamic result = await auth.registerWithEmailAndPAssword(
         userIdController.text.trim(),
         passwordController.text.trim(),
@@ -86,10 +103,12 @@ class _SignUpState extends State<SignUp> {
 
       if (result == null) {
         setState(() {
+          isLoading = true;
           error = 'Invalid email';
         });
       } else if (result == 'email-already-in-use') {
         setState(() {
+          isLoading = true;
           error = 'User already exists, Please sign In ';
         });
       } else {
