@@ -125,12 +125,28 @@ class _LoginScreenState extends State<LoginScreen> {
                     kbox30,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        SignInOptions(imagePath: 'assets/sign_in/google.png'),
-                        SizedBox(
+                      children: [
+                        GestureDetector(
+                            onTap: () {
+                              auth.signInWithGoogle();
+                              setState(() {
+                                isLoading = true;
+                              });
+                            },
+                            child: const SignInOptions(
+                                imagePath: 'assets/sign_in/google.png')),
+                        const SizedBox(
                           width: 15,
                         ),
-                        SignInOptions(imagePath: 'assets/sign_in/fb_img.png'),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const SignUp(),
+                            ));
+                          },
+                          child: const SignInOptions(
+                              imagePath: 'assets/sign_in/email.png'),
+                        ),
                       ],
                     ),
                     kbox30,

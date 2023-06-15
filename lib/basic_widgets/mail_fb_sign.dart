@@ -8,8 +8,8 @@ class SignInOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
+      radius: 18,
       child: Image.asset(imagePath),
-      radius: 15,
     );
   }
 }
