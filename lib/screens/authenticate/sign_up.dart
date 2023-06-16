@@ -76,7 +76,12 @@ class _SignUpState extends State<SignUp> {
                   ),
                   SubmitButton(
                       title: 'Register', onpressfun: _registerButtonPressed),
-                  isLoading ? Text(error) : const CircularProgressIndicator(),
+                  isLoading
+                      ? Text(
+                          error,
+                          style: const TextStyle(color: Colors.red),
+                        )
+                      : const CircularProgressIndicator(),
                 ],
               ),
             ),
