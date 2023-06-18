@@ -25,7 +25,7 @@ class PixMania extends StatelessWidget {
       child: MaterialApp(
           home: const SplashScreen(),
           theme: ThemeData(
-              scaffoldBackgroundColor: const Color.fromARGB(255, 201, 236, 223),
+              // scaffoldBackgroundColor: const Color.fromARGB(255, 201, 236, 223),
               primarySwatch: Colors.teal,
               primaryColor: Colors.greenAccent)),
     );
