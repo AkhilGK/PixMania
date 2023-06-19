@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
     const Home(),
     const SearchScreen(),
     const ChatScreen(),
-    const ProfileScreen()
+    ProfileScreen()
   ];
 
   @override
@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
           valueListenable: HomeScreen.selectedBottomNotifier,
           builder: (ctx, int updatedINdex, _) {
             return Container(
-              color: const Color.fromARGB(255, 145, 202, 189),
+              color: Colors.white,
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -37,8 +37,9 @@ class HomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     activeColor: const Color.fromARGB(255, 207, 238, 230),
                     gap: 2,
-                    backgroundColor: const Color.fromARGB(255, 145, 202, 189),
+                    backgroundColor: Colors.white,
                     tabBackgroundColor: const Color.fromARGB(255, 99, 116, 112),
+                    //const Color.fromARGB(255, 145, 202, 189)
                     tabs: const [
                       GButton(icon: Icons.home, text: "Home"),
                       GButton(icon: Icons.search, text: "Search"),
@@ -62,24 +63,6 @@ class HomeScreen extends StatelessWidget {
             return _pages[updatedIndex];
           },
         ),
-        // child: Column(children: [
-        //   // Transform(
-        //   //   transform: Matrix4.skewX(.7),
-        //   //   child: Container(
-        //   //     width: double.infinity,
-        //   //     height: 200,
-        //   //     decoration: BoxDecoration(
-        //   //       borderRadius: BorderRadius.circular(50),
-        //   //       color: Colors.blue,
-        //   //     ),
-        //   //   ),
-        //   // ),
-        //   ElevatedButton(
-        //       onPressed: (() async {
-        //         await auth.signout();
-        //       }),
-        //       child: const Text("LogOut")),
-        // ]),
       ),
     );
   }

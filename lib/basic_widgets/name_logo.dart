@@ -7,7 +7,7 @@ class NamePixmania extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // width: 220,
-      height: 45,
+      height: 50,
       decoration: BoxDecoration(
         // color: Colors.white, // Optional container color
         borderRadius: BorderRadius.circular(10), // Optional border radius
@@ -19,6 +19,9 @@ class NamePixmania extends StatelessWidget {
             'assets/logo/camLogo.png', // Replace with your own image path
             fit: BoxFit.cover, // Adjust the fit as needed
             height: 32,
+          ),
+          const SizedBox(
+            width: 5,
           ),
           Image.asset(
             'assets/logo/logo trim.png', // Replace with your own image path

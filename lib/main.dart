@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:pixmania/basic_widgets/colors.dart';
 import 'package:pixmania/screens/splash_screen.dart';
 import 'package:pixmania/services/auth.dart';
 import 'package:pixmania/user%20model/model.dart';
@@ -25,9 +26,10 @@ class PixMania extends StatelessWidget {
       child: MaterialApp(
           home: const SplashScreen(),
           theme: ThemeData(
-              // scaffoldBackgroundColor: const Color.fromARGB(255, 201, 236, 223),
-              primarySwatch: Colors.teal,
-              primaryColor: Colors.greenAccent)),
+            scaffoldBackgroundColor: scafoldBg,
+            primarySwatch: Colors.teal,
+            // primaryColor: Colors.greenAccent
+          )),
     );
   }
 }

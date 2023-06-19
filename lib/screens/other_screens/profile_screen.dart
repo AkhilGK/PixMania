@@ -1,13 +1,21 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:pixmania/basic_widgets/colors.dart';
+import 'package:pixmania/services/auth.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
-
+  ProfileScreen({super.key});
+  AuthServices auth = AuthServices();
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: const Center(
-        child: Text('ProfileScreen'),
+    return Expanded(
+      child: Container(
+        decoration: const BoxDecoration(gradient: gradientColor),
+        child: Center(
+            child: ElevatedButton(
+                onPressed: (() async {
+                  await auth.signout();
+                }),
+                child: const Text("LogOut"))),
       ),
     );
   }
