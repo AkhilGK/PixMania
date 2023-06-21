@@ -15,7 +15,7 @@ class ProfileScreen extends StatelessWidget {
       child: Column(
         children: [
           ProfileCard(
-              name: 'Agk_kjhfkadh', profileImage: "assets/logo/camLogo.png"),
+              name: 'Agk_kjhfkadha', profileImage: "assets/logo/camLogo.png"),
           ElevatedButton(
               onPressed: (() async {
                 await auth.signout();

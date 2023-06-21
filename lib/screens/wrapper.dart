@@ -1,5 +1,4 @@
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
 import 'package:pixmania/screens/authenticate/login_screen.dart';
 import 'package:pixmania/screens/home_screen/home_screen.dart';
 import 'package:pixmania/user%20model/model.dart';
@@ -12,7 +11,7 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel?>(context);
     if (user == null) {
-      return LoginScreen();
+      return const LoginScreen();
     } else {
       return HomeScreen();
     }

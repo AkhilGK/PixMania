@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/screens/other_screens/settings_screen.dart';
 
 class ProfileCard extends StatelessWidget {
@@ -44,17 +45,22 @@ class ProfileCard extends StatelessWidget {
                         builder: (context) => SettingScreen(),
                       ));
                     },
-                    child: const Icon(Icons.person)),
-                GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => SettingScreen(),
-                      ));
-                    },
-                    child: const Icon(Icons.person))
+                    child: const Icon(Icons.edit)),
               ],
             ),
-          )
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                children: const [Text('2000'), Text('Followers')],
+              ),
+              Column(
+                children: const [Text('1908'), Text('Following')],
+              )
+            ],
+          ),
+          kbox20,
         ],
       ),
     );
