@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pixmania/basic_widgets/colors.dart';
+import 'package:pixmania/widgets/login_widgets/colors.dart';
 import 'package:pixmania/services/auth.dart';
 import 'package:pixmania/widgets/profile_widgets/profile_card.dart';
 

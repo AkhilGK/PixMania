@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pixmania/user%20model/model.dart';
@@ -5,6 +6,7 @@ import 'package:pixmania/user%20model/model.dart';
 class AuthServices {
   //created ani nstance of firebase auth
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
 //creating a userobject from firebase user
   UserModel? getUserFromfirebase(User? user) {
@@ -24,7 +26,11 @@ class AuthServices {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User? user = result.user;
-      return getUserFromfirebase(user!);
+      await _fireStore
+          .collection('users')
+          .doc(user!.uid)
+          .set({'userName': '', 'uid': user.uid, 'email': user.email});
+      return getUserFromfirebase(user);
     } catch (e) {
       if (e is FirebaseAuthException) {
         if (e.code == 'email-already-in-use') {
@@ -80,31 +86,4 @@ class AuthServices {
     //finally, lets sign in
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
-
-  //sign in with fb
-  // static loginWithFacebook() async {
-  //   FacebookAuth facebookAuth = FacebookAuth.instance;
-  //   bool isLogged = await facebookAuth.accessToken != null;
-  //   if (!isLogged) {
-  //     LoginResult result = await facebookAuth
-  //         .login(); // by default we request the email and the public profile
-
-  //     //   if (result.status == LoginStatus.success) {
-  //     //     // you are logged
-  //     //     AccessToken? token = await facebookAuth.accessToken;
-  //     //     return await handleFacebookLogin(
-  //     //         await facebookAuth.getUserData(), token!);
-  //     //   }
-  //     // } else {
-  //     //   AccessToken? token = await facebookAuth.accessToken;
-  //     //   return await handleFacebookLogin(
-  //     //       await facebookAuth.getUserData(), token!);
-  //     // }
-  //   }
-  //   // signInWithFacebook()async{
-
-  //   //   final LoginResult result=FacebookAuth
-
-  //   // }
-  // }
 }

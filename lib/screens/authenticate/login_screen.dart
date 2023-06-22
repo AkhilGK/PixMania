@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pixmania/basic_widgets/appbar.dart';
-import 'package:pixmania/basic_widgets/button.dart';
-import 'package:pixmania/basic_widgets/formfield.dart';
-import 'package:pixmania/basic_widgets/mail_fb_sign.dart';
+import 'package:pixmania/widgets/login_widgets/appbar.dart';
+import 'package:pixmania/widgets/login_widgets/button.dart';
+import 'package:pixmania/widgets/login_widgets/formfield.dart';
+import 'package:pixmania/widgets/login_widgets/mail_fb_sign.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/screens/authenticate/forget_password.dart';
 import 'package:pixmania/screens/authenticate/sign_up.dart';

@@ -1,16 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Usermodel {
-  String userId;
-  String userName;
-  String about;
-  String profileImage;
+  String? userId;
+  String? userName;
+  String? about;
+  String? profileImage;
 
-  Usermodel(
-      {required this.userId,
-      required this.userName,
-      required this.about,
-      required this.profileImage});
+  Usermodel({this.userId, this.userName, this.about, this.profileImage});
 
   factory Usermodel.fromDocumentSnapshot(DocumentSnapshot snapshot) {
     final data = snapshot.data() as Map<String, dynamic>?;
