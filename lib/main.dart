@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/widgets/login_widgets/colors.dart';
 import 'package:pixmania/screens/splash_screen.dart';
 import 'package:pixmania/services/auth.dart';
@@ -23,13 +24,20 @@ class PixMania extends StatelessWidget {
     return StreamProvider<UserModel?>.value(
       value: AuthServices().userLog,
       initialData: null,
-      child: MaterialApp(
-          home: const SplashScreen(),
-          theme: ThemeData(
-            scaffoldBackgroundColor: scafoldBg,
-            primarySwatch: Colors.teal,
-            // primaryColor: Colors.greenAccent
-          )),
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => UserProvider(),
+          )
+        ],
+        child: MaterialApp(
+            home: const SplashScreen(),
+            theme: ThemeData(
+              scaffoldBackgroundColor: scafoldBg,
+              primarySwatch: Colors.teal,
+              // primaryColor: Colors.greenAccent
+            )),
+      ),
     );
   }
 }

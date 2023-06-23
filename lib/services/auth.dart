@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pixmania/user%20model/model.dart';
+import 'package:pixmania/user%20model/usermodel.dart';
 
 class AuthServices {
   //created ani nstance of firebase auth
@@ -26,10 +27,19 @@ class AuthServices {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User? user = result.user;
-      await _fireStore
-          .collection('users')
-          .doc(user!.uid)
-          .set({'userName': '', 'uid': user.uid, 'email': user.email});
+
+      //userModel is added with data
+      UserData userData = UserData(
+          uid: user!.uid,
+          userName: user.email!.split('@')[0], //to remove the domain part
+          bio: 'pixMania User',
+          profileImage: null,
+          followers: [],
+          following: []);
+
+      //function to create data base collection
+      await _fireStore.collection('users').doc(user.uid).set(userData.toJson());
+
       return getUserFromfirebase(user);
     } catch (e) {
       if (e is FirebaseAuthException) {
@@ -82,6 +92,21 @@ class AuthServices {
     //create a new credential for user
     final credential = GoogleAuthProvider.credential(
         accessToken: gAuth.accessToken, idToken: gAuth.idToken);
+    //userModel is added with data
+    UserData userData = UserData(
+        uid: _auth.currentUser!.uid,
+        userName:
+            _auth.currentUser!.email!.split('@')[0], //to remove the domain part
+        bio: 'pixMania User',
+        profileImage: null,
+        followers: [],
+        following: []);
+
+    //function to create data base collection
+    await _fireStore
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .set(userData.toJson());
 
     //finally, lets sign in
     return await FirebaseAuth.instance.signInWithCredential(credential);

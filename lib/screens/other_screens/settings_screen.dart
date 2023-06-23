@@ -1,7 +1,9 @@
 import 'dart:typed_data';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pixmania/services/firestore.dart';
 import 'package:pixmania/widgets/login_widgets/button.dart';
 import 'package:pixmania/widgets/login_widgets/colors.dart';
 import 'package:pixmania/widgets/login_widgets/formfield.dart';
@@ -10,10 +12,13 @@ import 'package:pixmania/services/auth.dart';
 class SettingScreen extends StatelessWidget {
   SettingScreen({super.key});
   AuthServices auth = AuthServices();
+  FirebaseAuth user = FirebaseAuth.instance;
   TextEditingController nameController = TextEditingController();
-  TextEditingController aboutController = TextEditingController();
+  TextEditingController bioController = TextEditingController();
+  Uint8List? selectedImage;
   void imagepick() async {
-    Int8List image = await pickImage(ImageSource.gallery);
+    Uint8List image = await pickImage(ImageSource.gallery);
+    selectedImage = image;
   }
 
   @override
@@ -51,16 +56,31 @@ class SettingScreen extends StatelessWidget {
               children: [
                 Stack(
                   children: [
-                    CircleAvatar(
-                      radius: 65,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Image.asset(
-                          "assets/logo/camLogo.png",
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
+                    selectedImage != null
+                        ? CircleAvatar(
+                            radius: 65,
+                            backgroundImage: MemoryImage(selectedImage!),
+                            child: const Padding(
+                              padding: EdgeInsets.all(10.0),
+
+                              //child:
+                              //  Image.asset(
+                              //   "assets/logo/camLogo.png",
+                              //   fit: BoxFit.fill,
+                              // ),
+                            ),
+                          )
+                        : CircleAvatar(
+                            radius: 65,
+                            // backgroundImage: MemoryImage(selectedImage),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Image.asset(
+                                "assets/logo/camLogo.png",
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
                     Positioned(
                         bottom: 0,
                         right: 0,
@@ -71,21 +91,19 @@ class SettingScreen extends StatelessWidget {
                             icon: const Icon(Icons.add_a_photo)))
                   ],
                 ),
-                // ElevatedButton(
-                //   child: const Text('Change Profile Picture'),
-                //   onPressed: () {},
-                // ),
                 CustomFormfield(
                     controller: nameController,
                     hintText: 'Enter Username',
                     label: 'Username'),
                 CustomFormfield(
-                    controller: aboutController,
+                    controller: bioController,
                     hintText: 'Tell about your self',
-                    label: 'About'),
+                    label: 'Bio'),
                 SubmitButton(
                   title: 'Save Changes',
                   onpressfun: () {
+                    saveProfile(nameController.text, bioController.text,
+                        selectedImage!);
                     Navigator.pop(context);
                   },
                 )
@@ -97,6 +115,7 @@ class SettingScreen extends StatelessWidget {
     );
   }
 
+//pic an image from gallery
   pickImage(ImageSource imageSource) async {
     ImagePicker imagePicker = ImagePicker();
 
@@ -105,5 +124,14 @@ class SettingScreen extends StatelessWidget {
       return file.readAsBytes();
     }
     print('image not picked');
+  }
+
+  //save or edit profile
+  saveProfile(String userName, String bio, Uint8List image) {
+    FireStore().uploadProfile(
+      userName,
+      bio,
+      image,
+    );
   }
 }

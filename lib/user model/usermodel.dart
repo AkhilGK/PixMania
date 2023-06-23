@@ -1,21 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
-class Usermodel {
-  String? userId;
-  String? userName;
-  String? about;
-  String? profileImage;
+class UserData {
+  final String? uid;
+  final String? userName;
+  final String? bio;
+  final Uint8List? profileImage;
+  final List? followers;
+  final List? following;
+  UserData(
+      {required this.uid,
+      required this.userName,
+      required this.bio,
+      required this.profileImage,
+      required this.followers,
+      required this.following});
 
-  Usermodel({this.userId, this.userName, this.about, this.profileImage});
+  Map<String, dynamic> toJson() => {
+        "uid": uid,
+        "userName": userName,
+        "bio": bio,
+        "profileImage": profileImage,
+        "followers": followers,
+        "following": following
+      };
 
-  factory Usermodel.fromDocumentSnapshot(DocumentSnapshot snapshot) {
-    final data = snapshot.data() as Map<String, dynamic>?;
-
-    return Usermodel(
-      userId: snapshot.id,
-      userName: data?['userName'] ?? '',
-      about: data?['about'] ?? '',
-      profileImage: data?['profileImage'] ?? '',
-    );
+  static UserData fromSnap(DocumentSnapshot snap) {
+    var snapshot = snap.data() as Map<String, dynamic>;
+    return UserData(
+        uid: snapshot['uid'],
+        userName: snapshot['userName'],
+        bio: snapshot['bio'],
+        profileImage: snapshot['profileImage'],
+        followers: snapshot['followers'],
+        following: snapshot['following']);
   }
 }

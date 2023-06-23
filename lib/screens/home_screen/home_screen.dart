@@ -1,21 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/screens/other_screens/chat_screen.dart';
 import 'package:pixmania/screens/other_screens/home.dart';
 import 'package:pixmania/screens/other_screens/profile_screen.dart';
 import 'package:pixmania/screens/other_screens/search_screen.dart';
 import 'package:pixmania/services/auth.dart';
+import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
-  AuthServices auth = AuthServices();
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
   static ValueNotifier<int> selectedBottomNotifier = ValueNotifier(0);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  AuthServices auth = AuthServices();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    addData();
+  }
+
   final _pages = [
     const Home(),
     const SearchScreen(),
     const ChatScreen(),
     ProfileScreen()
   ];
+
+  addData() async {
+    UserProvider userProvider = Provider.of(context, listen: false);
+    await userProvider.refreshUser();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                 child: GNav(
                     selectedIndex: updatedINdex,
                     onTabChange: (value) {
-                      selectedBottomNotifier.value = value;
+                      HomeScreen.selectedBottomNotifier.value = value;
                     },
                     padding: const EdgeInsets.all(10),
                     activeColor: const Color.fromARGB(255, 207, 238, 230),
@@ -50,15 +70,9 @@ class HomeScreen extends StatelessWidget {
               ),
             );
           }),
-      // appBar: AppBar(
-      //   backgroundColor: const Color.fromARGB(255, 145, 202, 189),
-      //   toolbarHeight: 50,
-      //   title: const NamePixmania(), centerTitle: true,
-      //   // actions: const [NamePixmania()],
-      // ),
       body: SafeArea(
         child: ValueListenableBuilder(
-          valueListenable: selectedBottomNotifier,
+          valueListenable: HomeScreen.selectedBottomNotifier,
           builder: (context, int updatedIndex, _) {
             return _pages[updatedIndex];
           },
