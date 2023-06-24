@@ -33,7 +33,7 @@ class AuthServices {
           uid: user!.uid,
           userName: user.email!.split('@')[0], //to remove the domain part
           bio: 'pixMania User',
-          profileImage: null,
+          profileImage: '',
           followers: [],
           following: []);
 

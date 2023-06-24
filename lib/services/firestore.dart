@@ -8,6 +8,10 @@ class FireStore {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  final DocumentReference userCollectionReference = FirebaseFirestore.instance
+      .collection("users")
+      .doc(FirebaseAuth.instance.currentUser!.uid);
+
 //get data from firebase
   Future<UserData> getUserDetails() async {
     User currentUser = _auth.currentUser!;
@@ -15,6 +19,11 @@ class FireStore {
         await _fireStore.collection('users').doc(currentUser.uid).get();
     return UserData.fromSnap(snap);
   }
+
+//stream to get user data
+  // Stream<QueryDocumentSnapshot> get users {
+  //   return userCollectionReference.snapshots();
+  // }
 
 //update the profile picture
   Future<void> uploadProfile(
@@ -26,13 +35,18 @@ class FireStore {
   ) async {
     String imagePath = await StorageMethods()
         .uploadImageToStorage('profilePics', profileImage, false);
+    UserData userData = UserData(
+        uid: _auth.currentUser!.uid,
+        userName:
+            _auth.currentUser!.email!.split('@')[0], //to remove the domain part
+        bio: 'pixMania User',
+        profileImage: imagePath,
+        followers: [],
+        following: []);
 
-    await _fireStore.collection('users').doc(_auth.currentUser!.uid).set({
-      'userName': userName,
-      'uid': _auth.currentUser!.uid,
-      'email': _auth.currentUser!.email,
-      'bio': bio,
-      'profileImage': imagePath,
-    });
+    await _fireStore
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .set(userData.toJson());
   }
 }

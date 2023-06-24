@@ -1,16 +1,29 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:pixmania/constants/constants.dart';
+import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/screens/other_screens/settings_screen.dart';
+import 'package:pixmania/user%20model/usermodel.dart';
+import 'package:provider/provider.dart';
 
 class ProfileCard extends StatelessWidget {
-  ProfileCard({super.key, this.name, this.profileImage});
-  Uint8List? profileImage;
-  String? name;
+  ProfileCard({
+    super.key,
+    required this.name,
+  });
+  String name;
 
   @override
   Widget build(BuildContext context) {
+    UserData? user = Provider.of<UserProvider>(context).getUser;
+    String imagePath = user?.profileImage == null
+        ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZSk4gp49octHXf0Tug_Fdbd0eamGYhLd1Lcoy8j1l18_Tyt0OzkqaZ8r8TDmveiInAxo&usqp=CAU"
+        : user!.profileImage!;
+    String followers =
+        user?.followers == null ? "0" : user!.followers!.length.toString();
+    String following =
+        user?.followers == null ? "0" : user!.following!.length.toString();
+    String userName = user?.userName == null ? "PixManiaUser" : user!.userName!;
+
     return Card(
       margin: const EdgeInsets.all(0),
       color: Colors.white70,
@@ -24,32 +37,18 @@ class ProfileCard extends StatelessWidget {
               children: [
                 Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: CircleAvatar(
-                      radius: 35,
-                      child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Image.asset(
-                          "assets/logo/camLogo.png",
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    )
-                    // : CircleAvatar(
-                    //     backgroundImage: MemoryImage(
-                    //         Uint8List.fromList(utf8.encode(profileImage))),
-                    //     radius: 35,
-                    //     child: const Padding(
-                    //       padding: EdgeInsets.all(5.0),
-                    //       // child: Image.asset(
-                    //       //   profileImage,
-                    //       //   fit: BoxFit.fill,
-                    //       // ),
-                    //     ),
-                    //   )
-                    ),
+                    child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(imagePath),
+                          radius: 35,
+                          child: const Padding(
+                            padding: EdgeInsets.all(5.0),
+                          ),
+                        ))),
                 Expanded(
                   child: Text(
-                    name!,
+                    userName,
                     style: const TextStyle(fontSize: 24),
                   ),
                 ),
@@ -67,10 +66,10 @@ class ProfileCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Column(
-                children: const [Text('2000'), Text('Followers')],
+                children: [Text(followers), const Text('Followers')],
               ),
               Column(
-                children: const [Text('1908'), Text('Following')],
+                children: [Text(following), const Text('Following')],
               )
             ],
           ),

@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 
 class UserData {
   final String? uid;
   final String? userName;
   final String? bio;
-  final Uint8List? profileImage;
+  final String? profileImage;
   final List? followers;
   final List? following;
   UserData(

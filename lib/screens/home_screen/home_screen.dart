@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final _pages = [
-    const Home(),
+    Home(),
     const SearchScreen(),
     const ChatScreen(),
     ProfileScreen()
@@ -41,6 +41,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: Colors.white,
+        child: const Icon(
+          Icons.add,
+          color: Colors.black87,
+        ),
+      ),
       bottomNavigationBar: ValueListenableBuilder(
           valueListenable: HomeScreen.selectedBottomNotifier,
           builder: (ctx, int updatedINdex, _) {
