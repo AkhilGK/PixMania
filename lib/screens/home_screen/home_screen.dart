@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:pixmania/providers/userprovider.dart';
+import 'package:pixmania/screens/other_screens/add_post.dart';
 import 'package:pixmania/screens/other_screens/chat_screen.dart';
 import 'package:pixmania/screens/other_screens/home.dart';
 import 'package:pixmania/screens/other_screens/profile_screen.dart';
@@ -42,7 +43,11 @@ class _HomeScreenState extends State<HomeScreen> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const AddPost(),
+          ));
+        },
         backgroundColor: Colors.white,
         child: const Icon(
           Icons.add,

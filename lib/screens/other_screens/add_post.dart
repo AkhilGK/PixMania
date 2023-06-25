@@ -1,0 +1,166 @@
+import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:pixmania/constants/constants.dart';
+import 'package:pixmania/providers/userprovider.dart';
+import 'package:pixmania/user%20model/usermodel.dart';
+import 'package:pixmania/utils/utils.dart';
+import 'package:pixmania/widgets/login_widgets/colors.dart';
+import 'package:provider/provider.dart';
+
+class AddPost extends StatefulWidget {
+  const AddPost({super.key});
+
+  @override
+  State<AddPost> createState() => _AddPostState();
+}
+
+class _AddPostState extends State<AddPost> {
+  Uint8List? _file;
+  bool isLoading = false;
+  final TextEditingController _descriptionController = TextEditingController();
+
+  _selectImage(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          backgroundColor: scafoldBg,
+          title: const Text('Create a Post'),
+          children: [
+            const Divider(),
+            SimpleDialogOption(
+              padding: const EdgeInsets.all(20),
+              child: const Text('Take a photo'),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                Uint8List file = await pickImage(ImageSource.camera);
+                setState(() {
+                  _file = file;
+                });
+              },
+            ),
+            // const Divider(),
+            SimpleDialogOption(
+              padding: const EdgeInsets.all(20),
+              child: const Text('Choose from gallery'),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                Uint8List file = await pickImage(ImageSource.gallery);
+                setState(() {
+                  _file = file;
+                });
+              },
+            ),
+            const Divider(),
+            SimpleDialogOption(
+              padding: const EdgeInsets.all(20),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final UserData user = Provider.of<UserProvider>(context).getUser;
+    return _file == null
+        ? Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        _selectImage(context);
+                      },
+                      icon: const Icon(
+                        Icons.upload_file_outlined,
+                        size: 25,
+                      )),
+                  Text("Let's share the precious moments...",
+                      style: GoogleFonts.monoton(fontSize: 16)),
+                ],
+              ),
+            ),
+          )
+        : Scaffold(
+            appBar: AppBar(
+              title: const Text('Post to'),
+            ),
+            body: SafeArea(
+                child: Column(
+              children: [
+                kbox10,
+                // const NamePixmania(),
+                Text("Let's share the precious moments...",
+                    style: GoogleFonts.monoton(fontSize: 16)),
+                const Divider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundImage: NetworkImage(
+                        user.profileImage!,
+                        //  "https://p.kindpng.com/picc/s/24-248253_user-profile-default-image-png-clipart-png-download.png"
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.35,
+                      child: TextField(
+                        maxLength: 100,
+                        controller: _descriptionController,
+                        decoration: const InputDecoration(
+                            hintText: "Write a caption...",
+                            border: InputBorder.none),
+                        maxLines: 8,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 70.0,
+                      width: 70.0,
+                      child: AspectRatio(
+                        aspectRatio: 487 / 451,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                            fit: BoxFit.fill,
+                            alignment: FractionalOffset.topCenter,
+                            image: MemoryImage(_file!),
+                          )),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const Divider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton.icon(
+                      onPressed: () {},
+                      label: const Text(
+                        'Post',
+                        style: TextStyle(fontSize: 22),
+                      ),
+                      icon: const Icon(Icons.arrow_circle_right_outlined),
+                    )
+                  ],
+                )
+              ],
+            )),
+          );
+  }
+}

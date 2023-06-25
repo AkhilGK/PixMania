@@ -3,37 +3,60 @@ import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/services/firestore.dart';
+import 'package:pixmania/utils/utils.dart';
 import 'package:pixmania/widgets/login_widgets/button.dart';
 import 'package:pixmania/widgets/login_widgets/colors.dart';
 import 'package:pixmania/widgets/login_widgets/formfield.dart';
 import 'package:pixmania/services/auth.dart';
+import 'package:provider/provider.dart';
 
-class SettingScreen extends StatelessWidget {
-  SettingScreen({super.key});
+import '../../user model/usermodel.dart';
+
+class SettingScreen extends StatefulWidget {
+  const SettingScreen({super.key});
+
+  @override
+  State<SettingScreen> createState() => _SettingScreenState();
+}
+
+class _SettingScreenState extends State<SettingScreen> {
   AuthServices auth = AuthServices();
+
   FirebaseAuth user = FirebaseAuth.instance;
+
   TextEditingController nameController = TextEditingController();
+
   TextEditingController bioController = TextEditingController();
+
   Uint8List? selectedImage;
-  void imagepick() async {
-    Uint8List image = await pickImage(ImageSource.gallery);
-    selectedImage = image;
-  }
 
   @override
   Widget build(BuildContext context) {
+    UserData? userdata = Provider.of<UserProvider>(context).getUser;
+    String imagePath = userdata?.profileImage == null
+        ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZSk4gp49octHXf0Tug_Fdbd0eamGYhLd1Lcoy8j1l18_Tyt0OzkqaZ8r8TDmveiInAxo&usqp=CAU"
+        : userdata!.profileImage!;
+
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Settings'),
+      ),
       body: SafeArea(
           child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ElevatedButton.icon(
-              label: const Text('Profile'),
+          TextButton.icon(
+              label: const Text('Edit Profile'),
               onPressed: () {
-                _showAlertDialog(context);
+                _showAlertDialog(context, imagePath);
               },
               icon: const Icon(Icons.person)),
-          SubmitButton(title: 'Log out', onpressfun: logOut)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: SubmitButton(title: 'Log out', onpressfun: logOut),
+          )
         ],
       )),
     );
@@ -43,7 +66,15 @@ class SettingScreen extends StatelessWidget {
     await auth.signout();
   }
 
-  void _showAlertDialog(BuildContext context) {
+  void _showAlertDialog(BuildContext context, String imagepath) {
+    void imagepick() async {
+      Uint8List image = await pickImage(ImageSource.gallery);
+
+      setState(() {
+        selectedImage = image;
+      });
+    }
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -62,23 +93,17 @@ class SettingScreen extends StatelessWidget {
                             backgroundImage: MemoryImage(selectedImage!),
                             child: const Padding(
                               padding: EdgeInsets.all(10.0),
-
-                              //child:
-                              //  Image.asset(
-                              //   "assets/logo/camLogo.png",
-                              //   fit: BoxFit.fill,
-                              // ),
                             ),
                           )
                         : CircleAvatar(
                             radius: 65,
-                            // backgroundImage: MemoryImage(selectedImage),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Image.asset(
-                                "assets/logo/camLogo.png",
-                                fit: BoxFit.fill,
-                              ),
+                            backgroundImage: NetworkImage(imagepath),
+                            child: const Padding(
+                              padding: EdgeInsets.all(10.0),
+                              // child: Image.network(
+                              //   image,
+                              //   fit: BoxFit.fill,
+                              // ),
                             ),
                           ),
                     Positioned(
@@ -113,17 +138,6 @@ class SettingScreen extends StatelessWidget {
         );
       },
     );
-  }
-
-//pic an image from gallery
-  pickImage(ImageSource imageSource) async {
-    ImagePicker imagePicker = ImagePicker();
-
-    XFile? file = await imagePicker.pickImage(source: imageSource);
-    if (file != null) {
-      return file.readAsBytes();
-    }
-    print('image not picked');
   }
 
   //save or edit profile
