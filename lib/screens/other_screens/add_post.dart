@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/providers/userprovider.dart';
+import 'package:pixmania/services/firestore.dart';
 import 'package:pixmania/user%20model/usermodel.dart';
 import 'package:pixmania/utils/utils.dart';
 import 'package:pixmania/widgets/login_widgets/colors.dart';
@@ -19,8 +20,21 @@ class AddPost extends StatefulWidget {
 
 class _AddPostState extends State<AddPost> {
   Uint8List? _file;
+
   bool isLoading = false;
   final TextEditingController _descriptionController = TextEditingController();
+  void postImage(String uid, String userName, String profileImage) async {
+    try {
+      String res = await FireStore().uploadPost(
+          _descriptionController.text, _file!, uid, userName, profileImage);
+      if (res == 'Success') {
+        showSnackBar(context, 'Posted');
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
 
   _selectImage(BuildContext context) async {
     return showDialog(
@@ -99,67 +113,78 @@ class _AddPostState extends State<AddPost> {
               title: const Text('Post to'),
             ),
             body: SafeArea(
-                child: Column(
-              children: [
-                kbox10,
-                // const NamePixmania(),
-                Text("Let's share the precious moments...",
-                    style: GoogleFonts.monoton(fontSize: 16)),
-                const Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    CircleAvatar(
-                      radius: 25,
-                      backgroundImage: NetworkImage(
-                        user.profileImage!,
-                        //  "https://p.kindpng.com/picc/s/24-248253_user-profile-default-image-png-clipart-png-download.png"
-                      ),
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.35,
-                      child: TextField(
-                        maxLength: 100,
-                        controller: _descriptionController,
-                        decoration: const InputDecoration(
-                            hintText: "Write a caption...",
-                            border: InputBorder.none),
-                        maxLines: 8,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 70.0,
-                      width: 70.0,
-                      child: AspectRatio(
-                        aspectRatio: 487 / 451,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                            fit: BoxFit.fill,
-                            alignment: FractionalOffset.topCenter,
-                            image: MemoryImage(_file!),
-                          )),
+                child: Container(
+              decoration: kboxDecoration,
+              child: Column(
+                children: [
+                  kbox10,
+                  isLoading
+                      ? const LinearProgressIndicator()
+                      : const SizedBox(),
+                  Text("Let's share the precious moments...",
+                      style: GoogleFonts.monoton(fontSize: 16)),
+                  const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      CircleAvatar(
+                        radius: 25,
+                        backgroundImage: NetworkImage(
+                          user.profileImage!,
+                          //  "https://p.kindpng.com/picc/s/24-248253_user-profile-default-image-png-clipart-png-download.png"
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                const Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton.icon(
-                      onPressed: () {},
-                      label: const Text(
-                        'Post',
-                        style: TextStyle(fontSize: 22),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.35,
+                        child: TextField(
+                          maxLength: 100,
+                          controller: _descriptionController,
+                          decoration: const InputDecoration(
+                              hintText: "Write a caption...",
+                              border: InputBorder.none),
+                          maxLines: 8,
+                        ),
                       ),
-                      icon: const Icon(Icons.arrow_circle_right_outlined),
-                    )
-                  ],
-                )
-              ],
+                      SizedBox(
+                        height: 70.0,
+                        width: 70.0,
+                        child: AspectRatio(
+                          aspectRatio: 487 / 451,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                              fit: BoxFit.fill,
+                              alignment: FractionalOffset.topCenter,
+                              image: MemoryImage(_file!),
+                            )),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton.icon(
+                        onPressed: () {
+                          postImage(
+                              user.uid!, user.userName!, user.profileImage!);
+                          setState(() {
+                            isLoading = true;
+                          });
+                        },
+                        label: const Text(
+                          'Post',
+                          style: TextStyle(fontSize: 22),
+                        ),
+                        icon: const Icon(Icons.arrow_circle_right_outlined),
+                      )
+                    ],
+                  )
+                ],
+              ),
             )),
           );
   }

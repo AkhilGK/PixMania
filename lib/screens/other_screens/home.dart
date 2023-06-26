@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/widgets/homescreen_widgets/post_card_widget.dart';
 import 'package:pixmania/widgets/login_widgets/name_logo.dart';
 
@@ -18,15 +19,7 @@ class Home extends StatelessWidget {
           // Container(color: Colors.white, child: const NamePixmania()),
           Expanded(
               child: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: <Color>[
-                    Color.fromARGB(255, 196, 212, 208),
-                    Color.fromARGB(255, 134, 233, 187),
-                  ]),
-            ),
+            decoration: kboxDecoration,
             child: CustomScrollView(
               slivers: <Widget>[
                 //2

@@ -82,6 +82,42 @@ class AuthServices {
   }
 
   //sign in using google account
+//   signInWithGoogle() async {
+//     //begin interactive sign in process
+//     final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+
+//     //obtain auth details from request
+//     final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+
+//     //create a new credential for user
+//     final credential = GoogleAuthProvider.credential(
+//         accessToken: gAuth.accessToken, idToken: gAuth.idToken);
+//     print(gAuth.idToken);
+
+//     final userRef = _fireStore.collection('users').doc(credential.idToken);
+//     final userDoc = await userRef.get();
+
+// //to check user already exists or not
+//     if (!userDoc.exists) {
+//       //userModel is added with data
+//       UserData userData = UserData(
+//           uid: credential.idToken,
+//           userName: gUser.email.split('@')[0], //to remove the domain part
+//           bio: 'pixMania User',
+//           profileImage: '',
+//           followers: [],
+//           following: []);
+
+//       // Create the database collection for the user
+//       await userRef.set(userData.toJson());
+//     }
+
+//     //finally, lets sign in
+//     return await FirebaseAuth.instance.signInWithCredential(credential);
+//   }
+// ...
+
+//sign in using google account
   signInWithGoogle() async {
     //begin interactive sign in process
     final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
@@ -92,23 +128,32 @@ class AuthServices {
     //create a new credential for user
     final credential = GoogleAuthProvider.credential(
         accessToken: gAuth.accessToken, idToken: gAuth.idToken);
-    //userModel is added with data
-    UserData userData = UserData(
-        uid: _auth.currentUser!.uid,
-        userName:
-            _auth.currentUser!.email!.split('@')[0], //to remove the domain part
-        bio: 'pixMania User',
-        profileImage: null,
-        followers: [],
-        following: []);
 
-    //function to create data base collection
-    await _fireStore
-        .collection('users')
-        .doc(_auth.currentUser!.uid)
-        .set(userData.toJson());
+    //finally, let's sign in
+    final UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+    final String uid = userCredential.user!.uid;
 
-    //finally, lets sign in
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    final userRef = _fireStore.collection('users').doc(uid);
+    final userDoc = await userRef.get();
+
+    // Check if the user's document already exists
+    if (!userDoc.exists) {
+      // UserModel is added with data
+      UserData userData = UserData(
+          uid: uid,
+          userName: gUser.email.split('@')[0], //to remove the domain part
+          bio: 'pixMania User',
+          profileImage: '',
+          followers: [],
+          following: []);
+
+      // Create the database collection for the user
+      await userRef.set(userData.toJson());
+    }
+    return userCredential;
   }
+
+// ...
+
 }

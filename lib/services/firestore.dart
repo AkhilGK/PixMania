@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/services/storage_methods.dart';
 import 'package:pixmania/user%20model/post.dart';
 import 'package:pixmania/user%20model/usermodel.dart';
-import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:uuid/uuid.dart';
 
@@ -30,11 +32,8 @@ class FireStore {
   // }
 
 //update the profile picture only using update method
-  Future<void> uploadProfile(
-    String userName,
-    String bio,
-    Uint8List profileImage,
-  ) async {
+  Future<void> uploadProfile(String userName, String bio,
+      Uint8List profileImage, BuildContext context) async {
     String imagePath = await StorageMethods()
         .uploadImageToStorage('profilePics', profileImage, false);
 
@@ -42,6 +41,8 @@ class FireStore {
         .collection('users')
         .doc(_auth.currentUser!.uid)
         .update({'userName': userName, 'bio': bio, 'profileImage': imagePath});
+
+    Provider.of<UserProvider>(context).refreshUser();
   }
 
   //method to add a post
@@ -51,6 +52,7 @@ class FireStore {
     try {
       String photoUrl =
           await StorageMethods().uploadImageToStorage('posts', postFile, true);
+      //created a uniqe id for each post
       String postId = const Uuid().v1();
 
       Post post = Post(
@@ -64,6 +66,10 @@ class FireStore {
           likes: []);
 
       _fireStore.collection('posts').doc(postId).set(post.toJson());
-    } catch (err) {}
+      res = 'Success';
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
   }
 }

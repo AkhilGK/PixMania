@@ -35,9 +35,9 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     UserData? userdata = Provider.of<UserProvider>(context).getUser;
-    String imagePath = userdata?.profileImage == null
+    String imagePath = userdata.profileImage == null
         ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZSk4gp49octHXf0Tug_Fdbd0eamGYhLd1Lcoy8j1l18_Tyt0OzkqaZ8r8TDmveiInAxo&usqp=CAU"
-        : userdata!.profileImage!;
+        : userdata.profileImage!;
 
     return Scaffold(
       appBar: AppBar(
@@ -64,6 +64,7 @@ class _SettingScreenState extends State<SettingScreen> {
 
   void logOut() async {
     await auth.signout();
+    Navigator.of(context).pop();
   }
 
   void _showAlertDialog(BuildContext context, String imagepath) {
@@ -128,7 +129,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   title: 'Save Changes',
                   onpressfun: () {
                     saveProfile(nameController.text, bioController.text,
-                        selectedImage!);
+                        selectedImage!, context);
                     Navigator.pop(context);
                   },
                 )
@@ -141,11 +142,8 @@ class _SettingScreenState extends State<SettingScreen> {
   }
 
   //save or edit profile
-  saveProfile(String userName, String bio, Uint8List image) {
-    FireStore().uploadProfile(
-      userName,
-      bio,
-      image,
-    );
+  saveProfile(
+      String userName, String bio, Uint8List image, BuildContext context) {
+    FireStore().uploadProfile(userName, bio, image, context);
   }
 }
