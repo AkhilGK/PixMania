@@ -1,7 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/widgets/homescreen_widgets/post_card_widget.dart';
-import 'package:pixmania/widgets/login_widgets/name_logo.dart';
 
 class Home extends StatelessWidget {
   Home({super.key});
@@ -13,46 +12,49 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          // Container(color: Colors.white, child: const NamePixmania()),
-          Expanded(
-              child: Container(
-            decoration: kboxDecoration,
-            child: CustomScrollView(
-              slivers: <Widget>[
-                //2
-                const SliverAppBar(
-                    backgroundColor: Colors.white38,
-                    flexibleSpace: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8),
-                      child: NamePixmania(),
-                    )),
-                //3
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (_, int index) {
-                      return PostCard(
-                        postImage: images[index],
-                      );
-
-                      // ListTile(
-                      //   leading: Container(
-                      //       padding: const EdgeInsets.all(8),
-                      //       width: 100,
-                      //       child: const Placeholder()),
-                      //   title: Text('Place ${index + 1}', textScaleFactor: 2),
-                      // );
-                    },
-                    childCount: 3,
-                  ),
-                ),
-              ],
-            ),
-          ))
-        ],
-      ),
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+      builder: (context,
+          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        }
+        return ListView.builder(
+          itemBuilder: (context, index) =>
+              PostCard(snap: snapshot.data!.docs[index].data()),
+          itemCount: snapshot.data!.docs.length,
+        );
+      },
     );
+    // return Center(
+    //   child: Column(
+    //     children: [
+    //       // Container(color: Colors.white, child: const NamePixmania()),
+    //       Expanded(
+    //           child: Container(
+    //         decoration: kboxDecoration,
+    //         child: CustomScrollView(
+    //           slivers: <Widget>[
+    //             //2
+    //             const SliverAppBar(
+    //                 floating: true,
+    //                 pinned: false,
+    //                 snap: false,
+    //                 backgroundColor: Colors.white38,
+    //                 flexibleSpace: Padding(
+    //                   padding: EdgeInsets.symmetric(horizontal: 8),
+    //                   child: NamePixmania(),
+    //                 )),
+    //             //3
+    //             SliverList(
+    //                 delegate: SliverChildBuilderDelegate(
+    //               (context, index) =>
+    //             )),
+    //           ],
+    //         ),
+    //       ))
+    //     ],
+    //   ),
+    // );
   }
 }

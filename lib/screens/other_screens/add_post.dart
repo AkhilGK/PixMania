@@ -117,10 +117,11 @@ class _AddPostState extends State<AddPost> {
               decoration: kboxDecoration,
               child: Column(
                 children: [
-                  kbox10,
+                  kbox20,
                   isLoading
                       ? const LinearProgressIndicator()
                       : const SizedBox(),
+                  kbox10,
                   Text("Let's share the precious moments...",
                       style: GoogleFonts.monoton(fontSize: 16)),
                   const Divider(),
