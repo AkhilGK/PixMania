@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pixmania/constants/constants.dart';
+import 'package:pixmania/providers/userprovider.dart';
+import 'package:pixmania/services/firestore.dart';
+import 'package:pixmania/user%20model/usermodel.dart';
+import 'package:provider/provider.dart';
 
 class PostCard extends StatelessWidget {
   PostCard({super.key, this.postImage, required this.snap});
   String? postImage;
+  bool isLiked = false;
   final snap;
   @override
   Widget build(BuildContext context) {
     // timePosted = DateFormat('yyyy-MM-dd').format(snap['dateTime']);
+    UserData user = Provider.of<UserProvider>(context).getUser;
     return Column(
       children: [
         Row(
@@ -30,14 +36,38 @@ class PostCard extends StatelessWidget {
             )
           ],
         ),
-        Container(
-          child: Image(image: NetworkImage(snap['postUrl'])),
+        GestureDetector(
+          onDoubleTap: () {
+            FireStore().likePost(snap['postId'], user.uid!, snap['likes']);
+          },
+          child: Container(
+            child: Image(image: NetworkImage(snap['postUrl'])),
+          ),
         ),
         Row(
           children: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.favorite)),
+            IconButton(
+                onPressed: () {
+                  FireStore()
+                      .likePost(snap['postId'], user.uid!, snap['likes']);
+                },
+                icon: snap['likes'].contains(user.uid)
+                    ? const Icon(
+                        Icons.favorite,
+                        color: Colors.pink,
+                      )
+                    : const Icon(Icons.favorite_border_outlined)),
             IconButton(onPressed: () {}, icon: const Icon(Icons.chat)),
             IconButton(onPressed: () {}, icon: const Icon(Icons.menu))
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(
+              width: 5,
+            ),
+            Text('${snap['likes'].length} Likes'),
           ],
         ),
         Row(mainAxisAlignment: MainAxisAlignment.start, children: [
