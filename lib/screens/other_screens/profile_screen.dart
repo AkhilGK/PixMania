@@ -12,11 +12,6 @@ class ProfileScreen extends StatelessWidget {
 
   AuthServices auth = AuthServices();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  // List<String> imagePaths = [
-  //   'assets/posts/275933.jpg',
-  //   'assets/posts/sd.jpg',
-  //   'assets/posts/thumbbig-147879.webp'
-  // ];
 
   @override
   Widget build(BuildContext context) {

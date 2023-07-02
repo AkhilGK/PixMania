@@ -74,7 +74,11 @@ class FireStore {
   }
 
   //like a post
-  Future<void> likePost(String postId, String uid, List likes) async {
+  Future<void> likePost(
+    String postId,
+    String uid,
+    List likes,
+  ) async {
     try {
       if (likes.contains(uid)) {
         await _fireStore.collection('posts').doc(postId).update({
@@ -83,6 +87,32 @@ class FireStore {
       } else {
         await _fireStore.collection('posts').doc(postId).update({
           'likes': FieldValue.arrayUnion([uid])
+        });
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  //comment a post
+  Future<void> commentPost(String userName, String comment, String uid,
+      String profileImage, String postId) async {
+    try {
+      if (comment.isNotEmpty) {
+        String commentId = const Uuid().v4();
+        _fireStore
+            .collection('posts')
+            .doc(postId)
+            .collection('comments')
+            .doc(commentId)
+            .set({
+          'profilePic': profileImage,
+          'name': userName,
+          'comment': comment,
+          'uid': uid,
+          'postId': postId,
+          'commentId': commentId,
+          'timeofComment': DateTime.now()
         });
       }
     } catch (e) {

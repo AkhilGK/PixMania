@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/providers/userprovider.dart';
+import 'package:pixmania/screens/other_screens/comment_screen.dart';
 import 'package:pixmania/services/firestore.dart';
 import 'package:pixmania/user%20model/usermodel.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +58,13 @@ class PostCard extends StatelessWidget {
                         color: Colors.pink,
                       )
                     : const Icon(Icons.favorite_border_outlined)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.chat)),
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => CommentScreen(),
+                  ));
+                },
+                icon: const Icon(Icons.chat)),
             IconButton(onPressed: () {}, icon: const Icon(Icons.menu))
           ],
         ),
