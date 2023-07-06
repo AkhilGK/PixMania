@@ -5,6 +5,7 @@ import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/screens/other_screens/comment_screen.dart';
 import 'package:pixmania/services/firestore.dart';
 import 'package:pixmania/user%20model/usermodel.dart';
+import 'package:pixmania/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 class PostCard extends StatelessWidget {
@@ -23,17 +24,27 @@ class PostCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
-                radius: 26,
+                radius: 24,
                 backgroundColor: Colors.black87,
                 child: CircleAvatar(
-                  radius: 24,
+                  radius: 22,
                   backgroundImage: NetworkImage(snap['profileImage']),
                 ),
               ),
             ),
-            Text(
-              snap['userName'],
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  snap['userName'],
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+                Text(
+                  DateFormat.yMMMd().format(snap['dateTime'].toDate()),
+                  style: const TextStyle(fontSize: 12),
+                ),
+              ],
             )
           ],
         ),
@@ -42,7 +53,8 @@ class PostCard extends StatelessWidget {
             FireStore().likePost(snap['postId'], user.uid!, snap['likes']);
           },
           child: Container(
-            child: Image(image: NetworkImage(snap['postUrl'])),
+            child: InteractiveViewer(
+                child: Image(image: NetworkImage(snap['postUrl']))),
           ),
         ),
         Row(
@@ -61,25 +73,38 @@ class PostCard extends StatelessWidget {
             IconButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => CommentScreen(),
+                    builder: (context) => CommentScreen(
+                      snap: snap,
+                    ),
                   ));
                 },
-                icon: const Icon(Icons.chat)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.menu))
+                icon: const Icon(Icons.chat_outlined)),
+            user.uid == snap['uid']
+                ? IconButton(
+                    onPressed: () async {
+                      await FireStore()
+                          .deletePost(snap['postId'], snap['postUrl']);
+                      showSnackBar(context, 'Post Deleted!');
+                    },
+                    icon: const Icon(
+                      Icons.menu_outlined,
+                      size: 26,
+                    ))
+                : const SizedBox()
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const SizedBox(
-              width: 5,
+              width: 15,
             ),
             Text('${snap['likes'].length} Likes'),
           ],
         ),
         Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           const SizedBox(
-            width: 10,
+            width: 15,
           ),
           Text(snap['userName'],
               style: const TextStyle(
@@ -91,15 +116,32 @@ class PostCard extends StatelessWidget {
               style: const TextStyle(color: Colors.black87))
         ]),
         kbox10,
-        const SizedBox(
-          child: Text(
-            'View all 20 comments',
-            style: TextStyle(color: Colors.black87),
-          ),
+        Row(
+          children: [
+            const SizedBox(
+              width: 15,
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => CommentScreen(
+                    snap: snap,
+                  ),
+                ));
+              },
+              child: const SizedBox(
+                child: Text(
+                  'View all comments',
+                  style: TextStyle(color: Colors.black87),
+                ),
+              ),
+            ),
+          ],
         ),
-        Text(DateFormat.yMMMd().format(snap['dateTime'].toDate())),
+        kbox10,
         const Divider(
           thickness: 2,
+          height: 0,
         )
       ],
     );

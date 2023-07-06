@@ -2,36 +2,35 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/widgets/homescreen_widgets/post_card_widget.dart';
-
 import '../../widgets/login_widgets/name_logo.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key});
 
-  // final List<String> images = [
-  //   'assets/posts/275933.jpg',
-  //   'assets/posts/sd.jpg',
-  //   'assets/posts/thumbbig-147879.webp'
-  // ];
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
+    return Container(
+      decoration: kboxDecoration,
+      child: CustomScrollView(
         slivers: <Widget>[
           const SliverAppBar(
+            toolbarHeight: 70,
             floating: true,
             pinned: false,
             snap: false,
             backgroundColor: Colors.white,
             flexibleSpace: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
               child: NamePixmania(),
             ),
           ),
           StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+            stream: FirebaseFirestore.instance
+                .collection('posts')
+                .orderBy('dateTime', descending: true)
+                .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const SliverFillRemaining(

@@ -81,42 +81,6 @@ class AuthServices {
     }
   }
 
-  //sign in using google account
-//   signInWithGoogle() async {
-//     //begin interactive sign in process
-//     final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
-
-//     //obtain auth details from request
-//     final GoogleSignInAuthentication gAuth = await gUser!.authentication;
-
-//     //create a new credential for user
-//     final credential = GoogleAuthProvider.credential(
-//         accessToken: gAuth.accessToken, idToken: gAuth.idToken);
-//     print(gAuth.idToken);
-
-//     final userRef = _fireStore.collection('users').doc(credential.idToken);
-//     final userDoc = await userRef.get();
-
-// //to check user already exists or not
-//     if (!userDoc.exists) {
-//       //userModel is added with data
-//       UserData userData = UserData(
-//           uid: credential.idToken,
-//           userName: gUser.email.split('@')[0], //to remove the domain part
-//           bio: 'pixMania User',
-//           profileImage: '',
-//           followers: [],
-//           following: []);
-
-//       // Create the database collection for the user
-//       await userRef.set(userData.toJson());
-//     }
-
-//     //finally, lets sign in
-//     return await FirebaseAuth.instance.signInWithCredential(credential);
-//   }
-// ...
-
 //sign in using google account
   signInWithGoogle() async {
     //begin interactive sign in process

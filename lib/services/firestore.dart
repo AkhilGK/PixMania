@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pixmania/providers/userprovider.dart';
@@ -7,12 +8,12 @@ import 'package:pixmania/services/storage_methods.dart';
 import 'package:pixmania/user%20model/post.dart';
 import 'package:pixmania/user%20model/usermodel.dart';
 import 'package:provider/provider.dart';
-
 import 'package:uuid/uuid.dart';
 
 class FireStore {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
   final DocumentReference userCollectionReference = FirebaseFirestore.instance
       .collection("users")
@@ -65,7 +66,7 @@ class FireStore {
           postUrl: photoUrl,
           likes: []);
 
-      _fireStore.collection('posts').doc(postId).set(post.toJson());
+      await _fireStore.collection('posts').doc(postId).set(post.toJson());
       res = 'Success';
     } catch (err) {
       res = err.toString();
@@ -100,7 +101,7 @@ class FireStore {
     try {
       if (comment.isNotEmpty) {
         String commentId = const Uuid().v4();
-        _fireStore
+        await _fireStore
             .collection('posts')
             .doc(postId)
             .collection('comments')
@@ -115,6 +116,29 @@ class FireStore {
           'timeofComment': DateTime.now()
         });
       }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  //delete a comment
+  Future<void> deleteComment(String postId, String commentId) async {
+    try {
+      await _fireStore
+          .collection('posts')
+          .doc(postId)
+          .collection('comments')
+          .doc(commentId)
+          .delete();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> deletePost(String postId, String imageUrl) async {
+    try {
+      await _fireStore.collection('posts').doc(postId).delete();
+      await _firebaseStorage.refFromURL(imageUrl).delete();
     } catch (e) {
       print(e.toString());
     }

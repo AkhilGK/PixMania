@@ -79,14 +79,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         obscureText: true,
                       ),
 
-                      // ElevatedButton(
-                      //     onPressed: () async {
-                      //       // await auth.logInWithEmailAndPassword(
-                      //       //   userIdController.text.trim(),
-                      //       //   passwordController.text.trim(),
-                      //       // );
-                      //     },
-                      //     child: const Text("Login")),
                       SubmitButton(
                           title: 'Log In', onpressfun: _signInButtonPressed),
 
@@ -215,13 +207,5 @@ class _LoginScreenState extends State<LoginScreen> {
         isLoading = true;
       });
     }
-    // try {
-    //   await auth.logInWithEmailAndPassword(
-    //     userIdController.text.trim(),
-    //     passwordController.text.trim(),
-    //   );
-    // } catch (e) {
-    //   print(e.toString());
-    // }
   }
 }

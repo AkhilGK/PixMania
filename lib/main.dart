@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/widgets/login_widgets/colors.dart';
 import 'package:pixmania/screens/splash_screen.dart';
@@ -33,6 +34,7 @@ class PixMania extends StatelessWidget {
         child: MaterialApp(
             home: const SplashScreen(),
             theme: ThemeData(
+              textTheme: GoogleFonts.latoTextTheme(),
               scaffoldBackgroundColor: scafoldBg,
               primarySwatch: Colors.teal,
               // primaryColor: Colors.greenAccent

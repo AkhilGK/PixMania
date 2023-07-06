@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pixmania/constants/constants.dart';
+import 'package:pixmania/screens/other_screens/posts_inprofile.dart';
 import 'package:pixmania/services/auth.dart';
 import 'package:pixmania/widgets/profile_widgets/profile_card.dart';
 
@@ -31,7 +32,7 @@ class ProfileScreen extends StatelessWidget {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
+                    return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     return Center(
                         child: Text('Error:${snapshot.error.toString()}'));
@@ -48,18 +49,26 @@ class ProfileScreen extends StatelessWidget {
                       itemCount: documents.length,
                       itemBuilder: (BuildContext context, int index) {
                         // Post user = Post.fromSnap(documents[index]);
-                        return Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(),
-                              borderRadius: BorderRadius.circular(5),
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(
-                                      documents[index].data()['postUrl']))),
-                          // child: Image.network(
-                          //   documents[index].data()['postUrl'],
-                          //   fit: BoxFit.cover,
-                          // ),
+                        return InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  ViewPost(snap: documents[index]),
+                            ));
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(),
+                                borderRadius: BorderRadius.circular(5),
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                        documents[index].data()['postUrl']))),
+                            // child: Image.network(
+                            //   documents[index].data()['postUrl'],
+                            //   fit: BoxFit.cover,
+                            // ),
+                          ),
                         );
                       },
                     );
@@ -71,30 +80,3 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
-      // child: SingleChildScrollView(
-      //         child: Padding(
-      //           padding: const EdgeInsets.all(8.0),
-      //           child: GridView.builder(
-      //             shrinkWrap: true,
-      //             physics: const NeverScrollableScrollPhysics(),
-      //             itemCount: imagePaths.length,
-      //             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      //               crossAxisCount: 3,
-      //               crossAxisSpacing: 10.0,
-      //               mainAxisSpacing: 10.0,
-      //             ),
-      //             itemBuilder: (BuildContext context, int index) {
-      //               return Container(
-      //                 decoration: BoxDecoration(
-      //                   border: Border.all(),
-      //                   borderRadius: BorderRadius.circular(5),
-      //                 ),
-      //                 child: Image.asset(
-      //                   imagePaths[index],
-      //                   fit: BoxFit.cover,
-      //                 ),
-      //               );
-      //             },
-      //           ),
-      //         ),
-      //       ),
