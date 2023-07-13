@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pixmania/constants/constants.dart';
+import 'package:pixmania/screens/other_screens/follow_unfollow.dart';
 import 'package:pixmania/screens/other_screens/settings_screen.dart';
 import 'package:pixmania/services/firestore.dart';
 import 'package:pixmania/user%20model/usermodel.dart';
@@ -55,7 +56,7 @@ class ProfileCard extends StatelessWidget {
                             Text(
                               userName,
                               style: const TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.w500),
+                                  fontSize: 24, fontWeight: FontWeight.bold),
                             ),
                             Text(
                               bio,
@@ -85,7 +86,16 @@ class ProfileCard extends StatelessWidget {
                       Column(
                         children: [
                           Text(followers),
-                          const Text('Followers'),
+                          InkWell(
+                              onTap: () =>
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        FollowScreen(isFollowers: true),
+                                  )),
+                              child: const Text(
+                                'Followers',
+                                style: TextStyle(fontSize: 18),
+                              )),
                         ],
                       ),
                       const VerticalDivider(
@@ -96,7 +106,16 @@ class ProfileCard extends StatelessWidget {
                       Column(
                         children: [
                           Text(following),
-                          const Text('Following'),
+                          InkWell(
+                              onTap: () =>
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        FollowScreen(isFollowers: false),
+                                  )),
+                              child: const Text(
+                                'Following',
+                                style: TextStyle(fontSize: 18),
+                              )),
                         ],
                       ),
                     ],

@@ -26,7 +26,12 @@ class _HomeScreenState extends State<HomeScreen> {
     addData();
   }
 
-  final _pages = [Home(), const SearchScreen(), ChatScreen(), ProfileScreen()];
+  final _pages = [
+    const Home(),
+    const SearchScreen(),
+    ChatScreen(),
+    ProfileScreen()
+  ];
 
   addData() async {
     UserProvider userProvider = Provider.of(context, listen: false);

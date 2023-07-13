@@ -39,38 +39,41 @@ class ProfileScreen extends StatelessWidget {
                   } else {
                     final documents = snapshot.data!.docs;
 
-                    return GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 10.0,
-                        mainAxisSpacing: 10.0,
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 10.0,
+                          mainAxisSpacing: 10.0,
+                        ),
+                        itemCount: documents.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          // Post user = Post.fromSnap(documents[index]);
+                          return InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    ViewPost(snap: documents[index]),
+                              ));
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  borderRadius: BorderRadius.circular(5),
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(
+                                          documents[index].data()['postUrl']))),
+                              // child: Image.network(
+                              //   documents[index].data()['postUrl'],
+                              //   fit: BoxFit.cover,
+                              // ),
+                            ),
+                          );
+                        },
                       ),
-                      itemCount: documents.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        // Post user = Post.fromSnap(documents[index]);
-                        return InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  ViewPost(snap: documents[index]),
-                            ));
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(),
-                                borderRadius: BorderRadius.circular(5),
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(
-                                        documents[index].data()['postUrl']))),
-                            // child: Image.network(
-                            //   documents[index].data()['postUrl'],
-                            //   fit: BoxFit.cover,
-                            // ),
-                          ),
-                        );
-                      },
                     );
                   }
                 }),

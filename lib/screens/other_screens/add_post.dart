@@ -171,7 +171,7 @@ class _AddPostState extends State<AddPost> {
                       TextButton.icon(
                         onPressed: () {
                           postImage(
-                              user.uid!, user.userName!, user.profileImage!);
+                              user.uid, user.userName!, user.profileImage!);
                           setState(() {
                             isLoading = true;
                           });

@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pixmania/providers/userprovider.dart';
@@ -28,8 +29,19 @@ class CommentCard extends StatelessWidget {
                   ? IconButton(
                       padding: const EdgeInsets.only(right: 0),
                       onPressed: () {
-                        FireStore()
-                            .deleteComment(snap['postId'], snap['commentId']);
+                        AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType
+                              .warning, // Change it as per your requirements
+                          animType: AnimType.scale,
+                          title: 'Delete comment?',
+                          desc: 'The comment will be deleted',
+                          btnCancelOnPress: () {},
+                          btnOkOnPress: () {
+                            FireStore().deleteComment(
+                                snap['postId'], snap['commentId']);
+                          },
+                        ).show();
                       },
                       icon: const Icon(Icons.more_vert))
                   : const SizedBox(

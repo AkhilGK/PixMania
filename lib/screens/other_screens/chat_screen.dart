@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:pixmania/services/auth.dart';
 import 'package:pixmania/widgets/login_widgets/button.dart';
 
@@ -15,7 +15,14 @@ class ChatScreen extends StatelessWidget {
             child: Text('ChatScreen'),
           ),
         ),
-        SubmitButton(title: 'Log out', onpressfun: logOut)
+        SubmitButton(title: 'Log out', onpressfun: logOut),
+        ElevatedButton(
+            onPressed: () {
+              // Navigator.of(context).push(MaterialPageRoute(
+              //   builder: (context) => VisitProfile(isfollowing: true),
+              // ));
+            },
+            child: const Text('Profilevisit'))
       ],
     );
   }

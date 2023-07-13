@@ -1,8 +1,10 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/screens/other_screens/comment_screen.dart';
+import 'package:pixmania/screens/other_screens/visit_profile.dart';
 import 'package:pixmania/services/firestore.dart';
 import 'package:pixmania/user%20model/usermodel.dart';
 import 'package:pixmania/utils/utils.dart';
@@ -35,10 +37,23 @@ class PostCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  snap['userName'],
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 18),
+                InkWell(
+                  child: Text(
+                    snap['userName'],
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  onTap: () {
+                    if (snap['uid'] == user.uid) {
+                      showSnackBar(context, 'Visit your profile...');
+                    } else {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => VisitProfile(
+                          snap: snap,
+                        ),
+                      ));
+                    }
+                  },
                 ),
                 Text(
                   DateFormat.yMMMd().format(snap['dateTime'].toDate()),
@@ -50,7 +65,7 @@ class PostCard extends StatelessWidget {
         ),
         GestureDetector(
           onDoubleTap: () {
-            FireStore().likePost(snap['postId'], user.uid!, snap['likes']);
+            FireStore().likePost(snap['postId'], user.uid, snap['likes']);
           },
           child: Container(
             child: InteractiveViewer(
@@ -61,8 +76,7 @@ class PostCard extends StatelessWidget {
           children: [
             IconButton(
                 onPressed: () {
-                  FireStore()
-                      .likePost(snap['postId'], user.uid!, snap['likes']);
+                  FireStore().likePost(snap['postId'], user.uid, snap['likes']);
                 },
                 icon: snap['likes'].contains(user.uid)
                     ? const Icon(
@@ -82,13 +96,24 @@ class PostCard extends StatelessWidget {
             user.uid == snap['uid']
                 ? IconButton(
                     onPressed: () async {
-                      await FireStore()
-                          .deletePost(snap['postId'], snap['postUrl']);
-                      showSnackBar(context, 'Post Deleted!');
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType
+                            .warning, // Change it as per your requirements
+                        animType: AnimType.scale,
+                        title: 'Delete post?',
+                        desc: 'The post will be deleted',
+                        btnCancelOnPress: () {},
+                        btnOkOnPress: () async {
+                          await FireStore()
+                              .deletePost(snap['postId'], snap['postUrl']);
+                          showSnackBar(context, 'Post Deleted!');
+                        },
+                      ).show();
                     },
                     icon: const Icon(
-                      Icons.menu_outlined,
-                      size: 26,
+                      Icons.delete_sweep_outlined,
+                      // size: 26,
                     ))
                 : const SizedBox()
           ],
@@ -115,7 +140,7 @@ class PostCard extends StatelessWidget {
           Text(snap['description'],
               style: const TextStyle(color: Colors.black87))
         ]),
-        kbox10,
+        // kbox10,
         Row(
           children: [
             const SizedBox(
@@ -131,7 +156,7 @@ class PostCard extends StatelessWidget {
               },
               child: const SizedBox(
                 child: Text(
-                  'View all comments',
+                  'View comments',
                   style: TextStyle(color: Colors.black87),
                 ),
               ),
