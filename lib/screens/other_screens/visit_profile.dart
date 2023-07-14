@@ -1,17 +1,27 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pixmania/constants/constants.dart';
+import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/screens/other_screens/posts_inprofile.dart';
+import 'package:pixmania/services/firestore.dart';
+import 'package:pixmania/user%20model/usermodel.dart';
+import 'package:provider/provider.dart';
 
 class VisitProfile extends StatelessWidget {
   VisitProfile({super.key, required this.snap});
   final snap;
-  bool isfollowing = true;
+  bool isfollowing = false;
+
   // String uid;
   // String name;
 
   @override
   Widget build(BuildContext context) {
+    UserData userData = Provider.of<UserProvider>(context).getUser;
+    ValueNotifier followNotify = ValueNotifier(userData.following);
     return Scaffold(
       body: SafeArea(
           child: Column(
@@ -45,18 +55,35 @@ class VisitProfile extends StatelessWidget {
                   child: Column(
                     children: [
                       kbox10,
-                      Text(
-                        user!['userName'],
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: CircleAvatar(
+                              backgroundColor: Colors.black,
+                              radius: 46.5,
+                              child: CircleAvatar(
+                                radius: 45,
+                                backgroundImage:
+                                    NetworkImage(user!['profileImage']),
+                              ),
+                            ),
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                user['userName'],
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(user['bio']),
+                            ],
+                          ),
+                        ],
                       ),
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundImage: NetworkImage(user['profileImage']),
-                      ),
-                      Text(user['bio']),
+                      kbox10,
                       IntrinsicHeight(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -87,15 +114,54 @@ class VisitProfile extends StatelessWidget {
                           ],
                         ),
                       ),
-                      isfollowing
-                          ? ElevatedButton(
-                              onPressed: () {},
+                      ValueListenableBuilder(
+                        valueListenable: followNotify,
+                        builder: (context, value, child) {
+                          if (followNotify.value.contains(snap['uid'])) {
+                            return ElevatedButton(
+                              onPressed: () {
+                                AwesomeDialog(
+                                  context: context,
+                                  dialogType: DialogType
+                                      .warning, // Change it as per your requirements
+                                  animType: AnimType.scale,
+                                  title: 'Delete post?',
+                                  desc: 'The post will be deleted',
+                                  btnCancelOnPress: () {},
+                                  btnOkOnPress: () async {
+                                    await FireStore()
+                                        .unFollow(userData.uid, snap['uid']);
+                                    Provider.of<UserProvider>(context,
+                                            listen: false)
+                                        .refreshUser();
+                                  },
+                                ).show();
+                              },
                               child: const Text('Following'),
-                            )
-                          : ElevatedButton(
-                              onPressed: () {},
+                            );
+                          } else {
+                            return ElevatedButton(
+                              onPressed: () async {
+                                await FireStore()
+                                    .follow(userData.uid, snap['uid']);
+                                Provider.of<UserProvider>(context,
+                                        listen: false)
+                                    .refreshUser();
+                              },
                               child: const Text('Follow'),
-                            ),
+                            );
+                          }
+                        },
+                      ),
+                      // isfollowing
+                      //     ? ElevatedButton(
+                      //         onPressed: () {},
+                      //         child: const Text('Following'),
+                      //       )
+                      //     : ElevatedButton(
+                      //         onPressed: () {},
+                      //         child: const Text('Follow'),
+                      //       ),
                     ],
                   ),
                 );
@@ -148,7 +214,8 @@ class VisitProfile extends StatelessWidget {
                     final documents = snapshot.data!.docs;
 
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
                       child: GridView.builder(
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(

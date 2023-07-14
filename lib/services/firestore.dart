@@ -135,10 +135,39 @@ class FireStore {
     }
   }
 
+//delete a post
   Future<void> deletePost(String postId, String imageUrl) async {
     try {
       await _fireStore.collection('posts').doc(postId).delete();
       await _firebaseStorage.refFromURL(imageUrl).delete();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  //follow a user
+  Future<void> follow(String userUid, String followUid) async {
+    try {
+      await _fireStore.collection('users').doc(userUid).update({
+        'following': FieldValue.arrayUnion([followUid])
+      });
+      await _fireStore.collection('users').doc(followUid).update({
+        'followers': FieldValue.arrayUnion([userUid])
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  //unfollow
+  Future<void> unFollow(String userUid, String followUid) async {
+    try {
+      await _fireStore.collection('users').doc(userUid).update({
+        'following': FieldValue.arrayRemove([followUid])
+      });
+      await _fireStore.collection('users').doc(followUid).update({
+        'followers': FieldValue.arrayRemove([userUid])
+      });
     } catch (e) {
       print(e.toString());
     }
