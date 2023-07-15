@@ -7,6 +7,8 @@ import 'package:pixmania/services/firestore.dart';
 import 'package:pixmania/user%20model/usermodel.dart';
 
 class ProfileCard extends StatelessWidget {
+  const ProfileCard({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(

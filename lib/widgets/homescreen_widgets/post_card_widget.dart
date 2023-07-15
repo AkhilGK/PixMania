@@ -75,15 +75,29 @@ class PostCard extends StatelessWidget {
         Row(
           children: [
             IconButton(
-                onPressed: () {
-                  FireStore().likePost(snap['postId'], user.uid, snap['likes']);
+              onPressed: () {
+                FireStore().likePost(snap['postId'], user.uid, snap['likes']);
+              },
+              icon: AnimatedSwitcher(
+                duration: const Duration(seconds: 2),
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return ScaleTransition(
+                    scale: animation,
+                    child: child,
+                  );
                 },
-                icon: snap['likes'].contains(user.uid)
+                child: snap['likes'].contains(user.uid)
                     ? const Icon(
                         Icons.favorite,
                         color: Colors.pink,
+                        size: 24, // adjust the size as needed
                       )
-                    : const Icon(Icons.favorite_border_outlined)),
+                    : const Icon(
+                        Icons.favorite_border,
+                        size: 24, // adjust the size as needed
+                      ),
+              ),
+            ),
             IconButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(

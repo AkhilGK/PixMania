@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pixmania/constants/constants.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -8,42 +10,30 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  double height = 100.0;
-
-  double width = 100.0;
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        GestureDetector(
-          onTap: (() {
-            setState(() {
-              height = 300;
-              width = 300;
-            });
-          }),
-          child: AnimatedContainer(
-            color: Colors.black87,
-            height: height,
-            width: width,
-            duration: const Duration(
-              seconds: 1,
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      decoration: kboxDecoration,
+      child: Column(
+        children: [
+          CupertinoSearchTextField(
+            padding: const EdgeInsets.all(15),
+            prefixIcon: const Icon(
+              CupertinoIcons.search,
+              color: Colors.grey,
             ),
-            onEnd: () {
-              setState(() {
-                height = 100;
-                width = 100;
-              });
-            },
-          ),
-        ),
-        Container(
-          child: const Center(
-            child: Text('Search'),
-          ),
-        ),
-      ],
+            suffixIcon: const Icon(
+              CupertinoIcons.xmark_circle_fill,
+              color: Colors.grey,
+            ),
+            style: const TextStyle(color: Colors.black),
+            backgroundColor: Colors.white.withOpacity(0.8),
+            onTap: () {},
+            onChanged: (value) {},
+          )
+        ],
+      ),
     );
   }
 }

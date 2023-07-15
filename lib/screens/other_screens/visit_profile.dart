@@ -25,6 +25,8 @@ class VisitProfile extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
           child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
             future: FirebaseFirestore.instance
@@ -33,7 +35,8 @@ class VisitProfile extends StatelessWidget {
                 .get(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
+                // return const SizedBox();
+                return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(
                   child: Text('Error: ${snapshot.error.toString()}'),
@@ -125,8 +128,8 @@ class VisitProfile extends StatelessWidget {
                                   dialogType: DialogType
                                       .warning, // Change it as per your requirements
                                   animType: AnimType.scale,
-                                  title: 'Delete post?',
-                                  desc: 'The post will be deleted',
+                                  title: 'Unfollow this profile?',
+                                  desc: 'Press ok to unfollow',
                                   btnCancelOnPress: () {},
                                   btnOkOnPress: () async {
                                     await FireStore()
