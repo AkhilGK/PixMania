@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pixmania/screens/home_screen/home_screen.dart';
 import 'package:pixmania/services/auth.dart';
 import 'package:pixmania/widgets/login_widgets/button.dart';
 
@@ -28,6 +29,7 @@ class ChatScreen extends StatelessWidget {
   }
 
   void logOut() async {
+    HomeScreen.selectedBottomNotifier.value = 0;
     await auth.signout();
   }
 }

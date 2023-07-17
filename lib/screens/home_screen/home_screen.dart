@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/screens/other_screens/add_post.dart';
 import 'package:pixmania/screens/other_screens/chat_screen.dart';
 import 'package:pixmania/screens/other_screens/home.dart';
 import 'package:pixmania/screens/other_screens/profile_screen.dart';
 import 'package:pixmania/screens/other_screens/search_screen.dart';
 import 'package:pixmania/services/auth.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({
+    super.key,
+  });
   static ValueNotifier<int> selectedBottomNotifier = ValueNotifier(0);
 
   @override
@@ -19,12 +19,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   AuthServices auth = AuthServices();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    addData();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   addData();
+  // }
 
   final _pages = [
     const Home(),
@@ -33,10 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
     ProfileScreen()
   ];
 
-  addData() async {
-    UserProvider userProvider = Provider.of(context, listen: false);
-    await userProvider.refreshUser();
-  }
+  // addData() async {
+  //   UserProvider userProvider = Provider.of(context, listen: false);
+  //   await userProvider.refreshUser();
+  // }
 
   @override
   Widget build(BuildContext context) {

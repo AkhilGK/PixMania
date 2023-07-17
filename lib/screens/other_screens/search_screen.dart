@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pixmania/constants/constants.dart';
+import 'package:pixmania/widgets/search_widgets/search_result.dart';
+import 'package:pixmania/widgets/search_widgets/search_suggestions.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -10,6 +12,8 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  String query = '';
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,8 +34,21 @@ class _SearchScreenState extends State<SearchScreen> {
             style: const TextStyle(color: Colors.black),
             backgroundColor: Colors.white.withOpacity(0.8),
             onTap: () {},
-            onChanged: (value) {},
-          )
+            onChanged: (value) {
+              setState(() {
+                query = value;
+              });
+            },
+          ),
+          Expanded(
+              child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 500),
+                  child: query == ''
+                      ? const SearchSuggestions()
+                      : SearchResult(
+                          query: query,
+                        ),
+                        ))
         ],
       ),
     );
