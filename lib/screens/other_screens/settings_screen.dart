@@ -203,6 +203,7 @@ class _SettingScreenState extends State<SettingScreen> {
               },
               icon: const Icon(Icons.person),
             ),
+            const Divider(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: SubmitButton(title: 'Log out', onpressfun: logOut),

@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 
-class CustomFormfield extends StatelessWidget {
-  const CustomFormfield(
+class CustomFormfield extends StatefulWidget {
+  CustomFormfield(
       {super.key,
       required this.controller,
       this.hintText,
       this.label,
-      this.obscureText = false});
+      this.obscureText = false,
+      this.isPassword = false});
   final TextEditingController? controller;
   final String? hintText;
   final String? label;
-  final bool obscureText;
+  bool obscureText;
+  bool isPassword;
 
+  @override
+  State<CustomFormfield> createState() => _CustomFormfieldState();
+}
+
+class _CustomFormfieldState extends State<CustomFormfield> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,25 +27,37 @@ class CustomFormfield extends StatelessWidget {
         validator: (value) {
           if (value == null ||
               value.isEmpty ||
-              (obscureText && value.length < 6)) {
-            return "Enter a valid ${label!.toLowerCase()}";
+              (widget.obscureText && value.length < 6)) {
+            return "Enter a valid ${widget.label!.toLowerCase()}";
           }
           return null;
         },
-        controller: controller,
-        obscureText: obscureText,
+        controller: widget.controller,
+        obscureText: widget.obscureText,
         // keyboardType: TextInputType.number,
         // maxLength: 12,
         decoration: InputDecoration(
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(50)),
-          hintText: hintText,
-          labelText: label,
-          disabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-          ),
-          enabledBorder:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(50)),
-        ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(50)),
+            hintText: widget.hintText,
+            labelText: widget.label,
+            disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+            enabledBorder:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(50)),
+            suffixIcon: widget.isPassword
+                ? IconButton(
+                    icon: const Icon(
+                      Icons.remove_red_eye_sharp,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        widget.obscureText = !widget.obscureText;
+                      });
+                    },
+                  )
+                : const SizedBox()),
       ),
     );
   }

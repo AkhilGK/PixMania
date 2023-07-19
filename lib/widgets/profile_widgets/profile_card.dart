@@ -62,7 +62,8 @@ class ProfileCard extends StatelessWidget {
                             ),
                             Text(
                               bio,
-                              style: const TextStyle(color: Colors.black54),
+                              style: const TextStyle(
+                                  color: Colors.black54, fontSize: 18),
                             )
                           ],
                         ),

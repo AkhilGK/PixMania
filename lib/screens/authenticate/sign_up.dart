@@ -49,8 +49,11 @@ class _SignUpState extends State<SignUp> {
                       style: GoogleFonts.monoton(fontSize: 16)),
                   kbox20,
                   Row(
-                    children: const [
-                      Text(
+                    children: [
+                      IconButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          icon: const Icon(Icons.arrow_back_ios_new)),
+                      const Text(
                         'Sign Up',
                         style: TextStyle(fontSize: 22),
                       ),
@@ -67,12 +70,14 @@ class _SignUpState extends State<SignUp> {
                     label: 'Password',
                     hintText: 'Enter your pasword',
                     obscureText: true,
+                    isPassword: true,
                   ),
                   CustomFormfield(
                     controller: confirmController,
                     label: 'Confirm Password',
                     hintText: 'Confirm pasword',
                     obscureText: true,
+                    isPassword: true,
                   ),
                   SubmitButton(
                       title: 'Register', onpressfun: _registerButtonPressed),

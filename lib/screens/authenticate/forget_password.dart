@@ -46,8 +46,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       style: GoogleFonts.monoton(fontSize: 16)),
                   kbox20,
                   Row(
-                    children: const [
-                      Text(
+                    children: [
+                      IconButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          icon: const Icon(Icons.arrow_back_ios_new)),
+                      const Text(
                         'Reset password',
                         style: TextStyle(fontSize: 22),
                       ),

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/user%20model/usermodel.dart';
@@ -41,26 +42,30 @@ class FollowScreen extends StatelessWidget {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
+                  return Center(
+                      child: Lottie.asset('assets/animations/loading.zip'));
                 }
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 }
                 if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return const Center(child: Text('No followers.'));
+                  return Center(
+                      child: Text(
+                    'No   followers.',
+                    style: headingStyle,
+                  ));
                 }
                 final documents = snapshot.data!.docs;
                 return Column(
                   children: [
+                    kbox10,
                     isFollowers
-                        ? const Text(
-                            'Followers',
-                            style: TextStyle(fontSize: 22),
-                          )
-                        : const Text(
+                        ? Text('Followers', style: headingStyle)
+                        : Text(
                             'Following',
-                            style: TextStyle(fontSize: 22),
+                            style: headingStyle,
                           ),
+                    const Divider(),
                     ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,

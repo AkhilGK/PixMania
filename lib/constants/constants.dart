@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 const kbox10 = SizedBox(height: 10);
 const kbox20 = SizedBox(height: 20);
@@ -14,3 +15,4 @@ const kboxDecoration = BoxDecoration(
         Color.fromARGB(255, 134, 233, 187),
       ]),
 );
+TextStyle headingStyle = GoogleFonts.monoton(fontSize: 20);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pixmania/widgets/login_widgets/appbar.dart';
 import 'package:pixmania/widgets/login_widgets/button.dart';
 import 'package:pixmania/widgets/login_widgets/formfield.dart';
@@ -77,6 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         label: 'Password',
                         hintText: 'Enter your pasword',
                         obscureText: true,
+                        isPassword: true,
                       ),
 
                       SubmitButton(
@@ -167,7 +169,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                           )
                         ],
-                      )
+                      ),
+                      Lottie.asset('assets/animations/animation_lk9dgaz1.zip')
                     ],
                   ),
                 ),

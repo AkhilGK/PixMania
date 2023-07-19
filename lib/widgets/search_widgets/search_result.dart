@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pixmania/user%20model/usermodel.dart';
 
 class SearchResult extends StatelessWidget {
@@ -32,9 +33,8 @@ class SearchResult extends StatelessWidget {
             .toList();
 
         return result.isEmpty
-            ? const Center(
-                child: Text('No result'),
-              )
+            ? Center(
+                child: Lottie.asset('assets/animations/animation_lk7t4l8g.zip'))
             : ListView(
                 physics: const NeverScrollableScrollPhysics(),
                 children: result
