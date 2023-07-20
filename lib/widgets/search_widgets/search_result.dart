@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pixmania/user%20model/usermodel.dart';
 
@@ -13,7 +14,10 @@ class SearchResult extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: SpinKitWaveSpinner(
+              size: 80,
+              color: Colors.teal,
+            ),
           );
         }
         if (snapshot.hasError) {

@@ -3,6 +3,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/screens/other_screens/posts_inprofile.dart';
@@ -36,7 +37,11 @@ class VisitProfile extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 // return const SizedBox();
-                return const Center(child: CircularProgressIndicator());
+                return const Center(
+                    child: SpinKitWaveSpinner(
+                  size: 80,
+                  color: Colors.teal,
+                ));
               } else if (snapshot.hasError) {
                 return Center(
                   child: Text('Error: ${snapshot.error.toString()}'),
@@ -171,36 +176,6 @@ class VisitProfile extends StatelessWidget {
               }
             },
           ),
-          // Container(
-          //   width: MediaQuery.of(context).size.width,
-          //   decoration: const BoxDecoration(
-          //     borderRadius: BorderRadius.only(
-          //         bottomLeft: Radius.circular(20),
-          //         bottomRight: Radius.circular(20)),
-          //     color: Colors.white,
-          //   ),
-          //   margin: const EdgeInsets.all(0),
-          //   child: Column(
-          //     children: [
-          //       kbox10,
-          //       Text(
-          //         snap['userName'],
-          //         style: const TextStyle(
-          //             fontSize: 20, fontWeight: FontWeight.bold),
-          //       ),
-          //       // Text(snap['descri']),
-          //       CircleAvatar(
-          //         radius: 50,
-          //         backgroundImage: NetworkImage(snap['profileImage']),
-          //       ),
-          //       isfollowing
-          //           ? ElevatedButton(
-          //               onPressed: () {}, child: const Text('Following'))
-          //           : ElevatedButton(
-          //               onPressed: () {}, child: const Text('Follow'))
-          //     ],
-          //   ),
-          // ),
           Expanded(
             child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                 stream: FirebaseFirestore.instance
@@ -209,7 +184,11 @@ class VisitProfile extends StatelessWidget {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(
+                        child: SpinKitWaveSpinner(
+                      size: 80,
+                      color: Colors.teal,
+                    ));
                   } else if (snapshot.hasError) {
                     return Center(
                         child: Text('Error:${snapshot.error.toString()}'));

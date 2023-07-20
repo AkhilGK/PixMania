@@ -12,8 +12,9 @@ class ChatScreen extends StatelessWidget {
     return Column(
       children: [
         Container(
-          child: const Center(
-            child: Text('ChatScreen'),
+          child: Center(
+            child: Image.network(
+                'https://firebasestorage.googleapis.com/v0/b/pixmania-182c7.appspot.com/o/profilePics%2FcamLogo.png?alt=media&token=6994a6f8-fc44-4dfa-a328-c964db9a19d8'),
           ),
         ),
         SubmitButton(title: 'Log out', onpressfun: logOut),

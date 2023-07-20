@@ -2,7 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/widgets/homescreen_widgets/post_card_widget.dart';
 import '../../widgets/login_widgets/name_logo.dart';
@@ -35,7 +35,12 @@ class Home extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const SliverFillRemaining(
-                    child: Center(child: RefreshProgressIndicator()));
+                    child: Center(
+                  child: SpinKitWaveSpinner(
+                    size: 80,
+                    color: Colors.teal,
+                  ),
+                ));
               } else if (snapshot.hasError) {
                 return SliverFillRemaining(
                   child: Center(

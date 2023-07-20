@@ -33,7 +33,8 @@ class AuthServices {
           uid: user!.uid,
           userName: user.email!.split('@')[0], //to remove the domain part
           bio: 'pixMania User',
-          profileImage: '',
+          profileImage:
+              'https://firebasestorage.googleapis.com/v0/b/pixmania-182c7.appspot.com/o/profilePics%2FcamLogo.png?alt=media&token=6994a6f8-fc44-4dfa-a328-c964db9a19d8',
           followers: [],
           following: []);
 
@@ -108,7 +109,8 @@ class AuthServices {
           uid: uid,
           userName: gUser.email.split('@')[0], //to remove the domain part
           bio: 'pixMania User',
-          profileImage: '',
+          profileImage:
+              'https://firebasestorage.googleapis.com/v0/b/pixmania-182c7.appspot.com/o/profilePics%2FcamLogo.png?alt=media&token=6994a6f8-fc44-4dfa-a328-c964db9a19d8',
           followers: [],
           following: []);
 

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pixmania/widgets/common_widgets/back_button.dart';
 import 'package:pixmania/widgets/login_widgets/appbar.dart';
 import 'package:pixmania/widgets/login_widgets/button.dart';
 import 'package:pixmania/widgets/login_widgets/formfield.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/services/auth.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -49,11 +51,9 @@ class _SignUpState extends State<SignUp> {
                       style: GoogleFonts.monoton(fontSize: 16)),
                   kbox20,
                   Row(
-                    children: [
-                      IconButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          icon: const Icon(Icons.arrow_back_ios_new)),
-                      const Text(
+                    children: const [
+                      CustomBackButton(),
+                      Text(
                         'Sign Up',
                         style: TextStyle(fontSize: 22),
                       ),
@@ -85,6 +85,11 @@ class _SignUpState extends State<SignUp> {
                       ? Text(
                           error,
                           style: const TextStyle(color: Colors.red),
+                        )
+                      : const SizedBox(),
+                  isLoading
+                      ? const SpinKitWaveSpinner(
+                          color: Colors.teal,
                         )
                       : const CircularProgressIndicator(),
                 ],

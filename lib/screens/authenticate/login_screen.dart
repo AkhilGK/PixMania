@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
 import 'package:pixmania/widgets/login_widgets/appbar.dart';
 import 'package:pixmania/widgets/login_widgets/button.dart';
 import 'package:pixmania/widgets/login_widgets/formfield.dart';
@@ -9,6 +8,7 @@ import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/screens/authenticate/forget_password.dart';
 import 'package:pixmania/screens/authenticate/sign_up.dart';
 import 'package:pixmania/services/auth.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -81,15 +81,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         isPassword: true,
                       ),
 
-                      SubmitButton(
-                          title: 'Log In', onpressfun: _signInButtonPressed),
+//login button
+
+                      isLoading
+                          ? SubmitButton(
+                              title: 'Log In', onpressfun: _signInButtonPressed)
+                          : const SpinKitWaveSpinner(
+                              color: Colors.teal,
+                            ),
 
                       isLoading
                           ? Text(
                               error,
                               style: const TextStyle(color: Colors.red),
                             )
-                          : const CircularProgressIndicator(),
+                          : const SizedBox(),
                       kbox10,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -170,7 +176,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           )
                         ],
                       ),
-                      Lottie.asset('assets/animations/animation_lk9dgaz1.zip')
                     ],
                   ),
                 ),

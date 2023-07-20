@@ -22,7 +22,7 @@ class ProfileScreen extends StatelessWidget {
       decoration: kboxDecoration,
       child: Column(
         children: [
-          ProfileCard(),
+          const ProfileCard(),
           kbox10,
           Expanded(
             child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(

@@ -33,6 +33,8 @@ class ProfileCard extends StatelessWidget {
             return Column(
               children: [
                 // const NamePixmania(),
+                // const CustomBackButton(),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
