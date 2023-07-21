@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/providers/userprovider.dart';
+import 'package:pixmania/screens/other_screens/visit_profile.dart';
 import 'package:pixmania/user%20model/usermodel.dart';
 import 'package:provider/provider.dart';
 
@@ -42,8 +44,11 @@ class FollowScreen extends StatelessWidget {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                      child: Lottie.asset('assets/animations/loading.zip'));
+                  return const Center(
+                      child: SpinKitWaveSpinner(
+                    size: 80,
+                    color: Colors.teal,
+                  ));
                 }
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
@@ -89,7 +94,13 @@ class FollowScreen extends StatelessWidget {
                                     radius: 26,
                                   ),
                                 ),
-                                title: Text(user.userName!),
+                                title: InkWell(
+                                    onTap: () => Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                          builder: (context) => VisitProfile(
+                                              snap: documents[index]),
+                                        )),
+                                    child: Text(user.userName!)),
                                 trailing: isFollowers
                                     ? ElevatedButton(
                                         onPressed: () {},

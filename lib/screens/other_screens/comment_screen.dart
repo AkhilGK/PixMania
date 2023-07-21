@@ -86,17 +86,7 @@ class CommentScreen extends StatelessWidget {
                 onTap: () {},
                 child: InkWell(
                   child: Row(
-                    children: const [
-                      // Container(
-                      //   padding: const EdgeInsets.symmetric(
-                      //       vertical: 8, horizontal: 8),
-                      //   child: const Text(
-                      //     'Post',
-                      //     style: TextStyle(color: Colors.blue),
-                      //   ),
-                      // ),
-                      Icon(Icons.send)
-                    ],
+                    children: const [Icon(Icons.send)],
                   ),
                   onTap: () async {
                     await FireStore().commentPost(

@@ -149,7 +149,6 @@
 // }
 
 import 'dart:typed_data';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -160,7 +159,6 @@ import 'package:pixmania/widgets/login_widgets/colors.dart';
 import 'package:pixmania/widgets/login_widgets/formfield.dart';
 import 'package:pixmania/services/auth.dart';
 import 'package:provider/provider.dart';
-
 import '../../user model/usermodel.dart';
 
 class SettingScreen extends StatefulWidget {

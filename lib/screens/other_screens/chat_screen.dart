@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pixmania/screens/home_screen/home_screen.dart';
+import 'package:pixmania/constants/constants.dart';
+import 'package:pixmania/providers/userprovider.dart';
+import 'package:pixmania/screens/other_screens/chats.dart';
 import 'package:pixmania/services/auth.dart';
-import 'package:pixmania/widgets/login_widgets/button.dart';
+import 'package:pixmania/user%20model/usermodel.dart';
+import 'package:pixmania/widgets/common_widgets/back_button.dart';
+import 'package:provider/provider.dart';
 
 class ChatScreen extends StatelessWidget {
   ChatScreen({super.key});
@@ -9,28 +13,75 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          child: Center(
-            child: Image.network(
-                'https://firebasestorage.googleapis.com/v0/b/pixmania-182c7.appspot.com/o/profilePics%2FcamLogo.png?alt=media&token=6994a6f8-fc44-4dfa-a328-c964db9a19d8'),
-          ),
-        ),
-        SubmitButton(title: 'Log out', onpressfun: logOut),
-        ElevatedButton(
-            onPressed: () {
-              // Navigator.of(context).push(MaterialPageRoute(
-              //   builder: (context) => VisitProfile(isfollowing: true),
-              // ));
-            },
-            child: const Text('Profilevisit'))
-      ],
-    );
-  }
+    UserData user = Provider.of<UserProvider>(context).getUser;
+    return Container(
+      decoration: kboxDecoration,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                const CustomBackButton(),
+                Expanded(
+                  child: Text(
+                    user.userName!,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: CircleAvatar(
+                    radius: 25,
+                    backgroundImage: NetworkImage(user.profileImage!),
+                  ),
+                )
+              ],
+            ),
+            const Divider(
+              thickness: 2,
+            ),
+            ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: 20,
+                itemBuilder: (context, index) {
+                  // UserData user = UserData.fromSnap(documents[index]);
 
-  void logOut() async {
-    HomeScreen.selectedBottomNotifier.value = 0;
-    await auth.signout();
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: InkWell(
+                      child: ListTile(
+                        contentPadding:
+                            const EdgeInsets.only(left: 15, right: 15),
+                        // visualDensity: const VisualDensity(vertical: -4),
+                        leading: CircleAvatar(
+                          radius: 28,
+                          backgroundColor: Colors.black,
+                          child: CircleAvatar(
+                            backgroundImage: NetworkImage(user.profileImage!),
+                            // AssetImage('assets/logo/camLogo.png'),
+                            radius: 26,
+                          ),
+                        ),
+                        title: InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Chats(),
+                              ));
+                            },
+                            child: Text(user.userName!)),
+                        subtitle: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [Text('last chat'), Text('time')],
+                        ),
+                      ),
+                    ),
+                  );
+                })
+          ],
+        ),
+      ),
+    );
   }
 }
