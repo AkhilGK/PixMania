@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/services/firestore.dart';
-import 'package:pixmania/user%20model/usermodel.dart';
+import 'package:pixmania/models/usermodel.dart';
 import 'package:pixmania/utils/utils.dart';
 import 'package:pixmania/widgets/homescreen_widgets/comment_card.dart';
 import 'package:provider/provider.dart';

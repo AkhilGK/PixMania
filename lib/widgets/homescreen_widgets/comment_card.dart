@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/services/firestore.dart';
-import 'package:pixmania/user%20model/usermodel.dart';
+import 'package:pixmania/models/usermodel.dart';
 import 'package:provider/provider.dart';
 
 class CommentCard extends StatelessWidget {

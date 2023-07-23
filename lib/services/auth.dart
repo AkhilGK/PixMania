@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:pixmania/user%20model/model.dart';
-import 'package:pixmania/user%20model/usermodel.dart';
+import 'package:pixmania/models/model.dart';
+import 'package:pixmania/models/usermodel.dart';
 
 class AuthServices {
   //created ani nstance of firebase auth
@@ -36,7 +36,8 @@ class AuthServices {
           profileImage:
               'https://firebasestorage.googleapis.com/v0/b/pixmania-182c7.appspot.com/o/profilePics%2FcamLogo.png?alt=media&token=6994a6f8-fc44-4dfa-a328-c964db9a19d8',
           followers: [],
-          following: []);
+          following: [],
+          chats: []);
 
       //function to create data base collection
       await _fireStore.collection('users').doc(user.uid).set(userData.toJson());
@@ -112,7 +113,8 @@ class AuthServices {
           profileImage:
               'https://firebasestorage.googleapis.com/v0/b/pixmania-182c7.appspot.com/o/profilePics%2FcamLogo.png?alt=media&token=6994a6f8-fc44-4dfa-a328-c964db9a19d8',
           followers: [],
-          following: []);
+          following: [],
+          chats: []);
 
       // Create the database collection for the user
       await userRef.set(userData.toJson());

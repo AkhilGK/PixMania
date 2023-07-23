@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -5,8 +7,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/services/storage_methods.dart';
-import 'package:pixmania/user%20model/post.dart';
-import 'package:pixmania/user%20model/usermodel.dart';
+import 'package:pixmania/models/post.dart';
+import 'package:pixmania/models/usermodel.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -167,6 +169,45 @@ class FireStore {
       });
       await _fireStore.collection('users').doc(followUid).update({
         'followers': FieldValue.arrayRemove([userUid])
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  //send message
+  Future<void> sendMessage(
+    String senderId,
+    String receiverId,
+    String message,
+  ) async {
+    String chatId = const Uuid().v4();
+    try {
+      await _fireStore
+          .collection('users')
+          .doc(senderId)
+          .collection('chats')
+          .doc(receiverId)
+          .collection('messages')
+          .doc(chatId)
+          .set({
+        'chatid': chatId,
+        'message': message,
+        'time': DateTime.now(),
+        'receiver': receiverId
+      });
+      await _fireStore
+          .collection('users')
+          .doc(receiverId)
+          .collection('chats')
+          .doc(senderId)
+          .collection('messages')
+          .doc(chatId)
+          .set({
+        'chatid': chatId,
+        'message': message,
+        'time': DateTime.now(),
+        'receiver': receiverId
       });
     } catch (e) {
       print(e.toString());

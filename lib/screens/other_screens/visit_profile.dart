@@ -6,9 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/providers/userprovider.dart';
+import 'package:pixmania/screens/other_screens/chats.dart';
 import 'package:pixmania/screens/other_screens/posts_inprofile.dart';
 import 'package:pixmania/services/firestore.dart';
-import 'package:pixmania/user%20model/usermodel.dart';
+import 'package:pixmania/models/usermodel.dart';
 import 'package:provider/provider.dart';
 
 class VisitProfile extends StatelessWidget {
@@ -89,6 +90,18 @@ class VisitProfile extends StatelessWidget {
                               Text(user['bio']),
                             ],
                           ),
+                          const Expanded(child: SizedBox(width: 5)),
+                          ElevatedButton(
+                            style: const ButtonStyle(),
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    Chats(recieverId: snap['uid']),
+                              ));
+                            },
+                            child: const Text('Message'),
+                          ),
+                          const SizedBox(width: 10)
                         ],
                       ),
                       kbox10,
@@ -161,15 +174,6 @@ class VisitProfile extends StatelessWidget {
                           }
                         },
                       ),
-                      // isfollowing
-                      //     ? ElevatedButton(
-                      //         onPressed: () {},
-                      //         child: const Text('Following'),
-                      //       )
-                      //     : ElevatedButton(
-                      //         onPressed: () {},
-                      //         child: const Text('Follow'),
-                      //       ),
                     ],
                   ),
                 );
@@ -223,10 +227,6 @@ class VisitProfile extends StatelessWidget {
                                       fit: BoxFit.cover,
                                       image: NetworkImage(
                                           documents[index].data()['postUrl']))),
-                              // child: Image.network(
-                              //   documents[index].data()['postUrl'],
-                              //   fit: BoxFit.cover,
-                              // ),
                             ),
                           );
                         },

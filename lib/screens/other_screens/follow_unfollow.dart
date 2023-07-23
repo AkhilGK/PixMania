@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:lottie/lottie.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/screens/other_screens/visit_profile.dart';
-import 'package:pixmania/user%20model/usermodel.dart';
+import 'package:pixmania/models/usermodel.dart';
 import 'package:provider/provider.dart';
 
 class FollowScreen extends StatelessWidget {

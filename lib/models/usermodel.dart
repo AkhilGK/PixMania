@@ -7,13 +7,15 @@ class UserData {
   final String? profileImage;
   final List? followers;
   final List? following;
+  final List? chats;
   UserData(
       {required this.uid,
       required this.userName,
       required this.bio,
       required this.profileImage,
       required this.followers,
-      required this.following});
+      required this.following,
+      required this.chats});
 
   Map<String, dynamic> toJson() => {
         "uid": uid,
@@ -21,7 +23,8 @@ class UserData {
         "bio": bio,
         "profileImage": profileImage,
         "followers": followers,
-        "following": following
+        "following": following,
+        "chats": chats
       };
 
   static UserData fromSnap(DocumentSnapshot snap) {
@@ -32,6 +35,7 @@ class UserData {
         bio: snapshot['bio'],
         profileImage: snapshot['profileImage'],
         followers: snapshot['followers'],
-        following: snapshot['following']);
+        following: snapshot['following'],
+        chats: snapshot['chats']);
   }
 }

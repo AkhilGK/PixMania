@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
-import 'package:pixmania/user%20model/usermodel.dart';
+import 'package:pixmania/models/usermodel.dart';
 
 class SearchResult extends StatelessWidget {
   SearchResult({super.key, required this.query});

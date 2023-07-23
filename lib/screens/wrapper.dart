@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/screens/authenticate/login_screen.dart';
 import 'package:pixmania/screens/home_screen/home_screen.dart';
-import 'package:pixmania/user%20model/model.dart';
+import 'package:pixmania/models/model.dart';
 import 'package:provider/provider.dart';
 
 class Wrapper extends StatelessWidget {

@@ -4,7 +4,7 @@ import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/screens/other_screens/follow_unfollow.dart';
 import 'package:pixmania/screens/other_screens/settings_screen.dart';
 import 'package:pixmania/services/firestore.dart';
-import 'package:pixmania/user%20model/usermodel.dart';
+import 'package:pixmania/models/usermodel.dart';
 
 class ProfileCard extends StatelessWidget {
   const ProfileCard({super.key});

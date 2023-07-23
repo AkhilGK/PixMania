@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/services/firestore.dart';
-import 'package:pixmania/user%20model/usermodel.dart';
+import 'package:pixmania/models/usermodel.dart';
 import 'package:pixmania/utils/utils.dart';
 import 'package:pixmania/widgets/login_widgets/colors.dart';
 import 'package:provider/provider.dart';

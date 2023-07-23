@@ -5,7 +5,7 @@ import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/widgets/login_widgets/colors.dart';
 import 'package:pixmania/screens/splash_screen.dart';
 import 'package:pixmania/services/auth.dart';
-import 'package:pixmania/user%20model/model.dart';
+import 'package:pixmania/models/model.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 

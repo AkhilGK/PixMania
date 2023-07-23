@@ -159,7 +159,7 @@ import 'package:pixmania/widgets/login_widgets/colors.dart';
 import 'package:pixmania/widgets/login_widgets/formfield.dart';
 import 'package:pixmania/services/auth.dart';
 import 'package:provider/provider.dart';
-import '../../user model/usermodel.dart';
+import '../../models/usermodel.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({Key? key}) : super(key: key);

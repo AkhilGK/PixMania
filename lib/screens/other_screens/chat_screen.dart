@@ -1,9 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/providers/userprovider.dart';
-import 'package:pixmania/screens/other_screens/chats.dart';
 import 'package:pixmania/services/auth.dart';
-import 'package:pixmania/user%20model/usermodel.dart';
+import 'package:pixmania/models/usermodel.dart';
 import 'package:pixmania/widgets/common_widgets/back_button.dart';
 import 'package:provider/provider.dart';
 
@@ -41,6 +41,15 @@ class ChatScreen extends StatelessWidget {
             const Divider(
               thickness: 2,
             ),
+            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(stream:FirebaseFirestore.instance
+            .collection('posts')
+            .doc(user.uid)
+            .collection('posts')
+            .orderBy('timeofComment', descending: true)
+            .snapshots(), ,
+              builder: (context, snapshot) {
+              
+            },)
             ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -66,9 +75,9 @@ class ChatScreen extends StatelessWidget {
                         ),
                         title: InkWell(
                             onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Chats(),
-                              ));
+                              // Navigator.of(context).push(MaterialPageRoute(
+                              //   builder: (context) => Chats(snap: ),
+                              // ));
                             },
                             child: Text(user.userName!)),
                         subtitle: Row(
