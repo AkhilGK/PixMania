@@ -95,8 +95,9 @@ class VisitProfile extends StatelessWidget {
                             style: const ButtonStyle(),
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    Chats(recieverId: snap['uid']),
+                                builder: (context) => Chats(
+                                    recieverId: snap['uid'],
+                                    userName: snap['userName']),
                               ));
                             },
                             child: const Text('Message'),

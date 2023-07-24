@@ -1,0 +1,55 @@
+import 'package:flutter/material.dart';
+
+class ChatBubble extends StatelessWidget {
+  ChatBubble(
+      {super.key,
+      required this.message,
+      required this.time,
+      required this.isUsersMessage});
+
+  String message;
+  String time;
+  bool isUsersMessage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Align(
+        alignment:
+            isUsersMessage ? Alignment.centerRight : Alignment.centerLeft,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: isUsersMessage
+                ? const Color.fromARGB(255, 195, 226, 223)
+                : const Color.fromARGB(255, 93, 100, 97),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                message,
+                style: TextStyle(
+                  color: isUsersMessage ? Colors.white : Colors.black,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                time,
+                style: TextStyle(
+                  color: isUsersMessage
+                      ? Colors.white.withOpacity(0.8)
+                      : Colors.black.withOpacity(0.6),
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

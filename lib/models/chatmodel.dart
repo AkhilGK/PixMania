@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Chat {
+class ChatModel {
   String chatId;
   String message;
   Timestamp time;
   String receiver;
-  Chat(
+  ChatModel(
       {required this.chatId,
       required this.message,
       required this.time,
@@ -20,10 +20,10 @@ class Chat {
     };
   }
 
-  Chat fromJson(DocumentSnapshot snap) {
+  static ChatModel fromJson(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
 
-    return Chat(
+    return ChatModel(
         chatId: snapshot['chatId'],
         message: snapshot['message'],
         time: snapshot['time'],

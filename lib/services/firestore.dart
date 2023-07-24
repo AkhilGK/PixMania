@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pixmania/providers/userprovider.dart';
@@ -15,7 +14,6 @@ import 'package:uuid/uuid.dart';
 class FireStore {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
   final DocumentReference userCollectionReference = FirebaseFirestore.instance
       .collection("users")
@@ -138,14 +136,28 @@ class FireStore {
   }
 
 //delete a post
+
   Future<void> deletePost(String postId, String imageUrl) async {
     try {
+      // Delete the post document from Firestore
       await _fireStore.collection('posts').doc(postId).delete();
-      await _firebaseStorage.refFromURL(imageUrl).delete();
+
+      // Delete the image from Firebase Storage
+      await StorageMethods().deleteImageFromStorage(imageUrl);
+
+      print('Post and image successfully deleted.');
     } catch (e) {
-      print(e.toString());
+      print('Error deleting post and image: ${e.toString()}');
     }
   }
+  // Future<void> deletePost(String postId, String imageUrl) async {
+  //   try {
+  //     await _fireStore.collection('posts').doc(postId).delete();
+  //     await _firebaseStorage.refFromURL(imageUrl).delete();
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
 
   //follow a user
   Future<void> follow(String userUid, String followUid) async {
@@ -175,42 +187,46 @@ class FireStore {
     }
   }
 
-  //send message
-  Future<void> sendMessage(
-    String senderId,
-    String receiverId,
-    String message,
-  ) async {
-    String chatId = const Uuid().v4();
-    try {
-      await _fireStore
-          .collection('users')
-          .doc(senderId)
-          .collection('chats')
-          .doc(receiverId)
-          .collection('messages')
-          .doc(chatId)
-          .set({
-        'chatid': chatId,
-        'message': message,
-        'time': DateTime.now(),
-        'receiver': receiverId
-      });
-      await _fireStore
-          .collection('users')
-          .doc(receiverId)
-          .collection('chats')
-          .doc(senderId)
-          .collection('messages')
-          .doc(chatId)
-          .set({
-        'chatid': chatId,
-        'message': message,
-        'time': DateTime.now(),
-        'receiver': receiverId
-      });
-    } catch (e) {
-      print(e.toString());
-    }
-  }
+  // //send message
+  // Future<void> sendMessage(
+  //   String senderId,
+  //   String receiverId,
+  //   String message,
+  // ) async {
+  //   String chatId = const Uuid().v4();
+
+  //   final chat = Chat(
+  //       chatId: chatId,
+  //       message: message,
+  //       time: Timestamp.now(),
+  //       receiver: receiverId);
+  //   final fireInstance =
+  //       _fireStore.collection('users').doc(senderId).collection('chats');
+  //   try {
+  //     //to set fields in user
+  //     await fireInstance.doc(receiverId).set({
+  //       'receiverId': receiverId,
+  //       'time': Timestamp.now(),
+  //       'lastMessage': message
+  //     });
+  //     await fireInstance.doc(senderId).set({
+  //       'receiverId': receiverId,
+  //       'time': Timestamp.now(),
+  //       'lastMessage': message
+  //     });
+  //     //to save chat
+  //     await fireInstance
+  //         .doc(receiverId)
+  //         .collection('messages')
+  //         .doc(chatId)
+  //         .set(chat.toJson());
+  //     await fireInstance
+  //         .doc(senderId)
+  //         .collection('messages')
+  //         .doc(chatId)
+  //         .set(chat.toJson());
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
 }
