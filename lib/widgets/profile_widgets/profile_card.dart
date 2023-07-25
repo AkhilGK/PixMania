@@ -78,7 +78,7 @@ class ProfileCard extends StatelessWidget {
                             ),
                           );
                         },
-                        child: const Icon(Icons.edit),
+                        child: const Icon(Icons.menu),
                       ),
                     ],
                   ),

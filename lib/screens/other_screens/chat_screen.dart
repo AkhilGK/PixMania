@@ -24,7 +24,6 @@ class ChatScreen extends StatelessWidget {
           children: [
             Row(
               children: [
-                // const CustomBackButton(),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15.0),
@@ -87,27 +86,7 @@ class ChatScreen extends StatelessWidget {
                         );
                       } else {
                         final userList = userSnapshot.data?.docs;
-                        // final List<QueryDocumentSnapshot<Map<String, dynamic>>>
-                        //     filteredList = [];
-                        // final List<QueryDocumentSnapshot<Map<String, dynamic>>>
-                        //     usersMessaged = [];
-                        // // Loop through documents and check if the 'receiverId' exists in userList
-                        // for (final doc in documents!) {
-                        //   final receiverId = doc['receiverId'];
-                        //   final exists = userList!
-                        //       .any((userDoc) => userDoc['uid'] == receiverId);
-                        //   if (exists) {
-                        //     filteredList.add(doc);
-                        //   }
-                        // }
-                        // for (final doc in userList!) {
-                        //   final userId = doc['uid'];
-                        //   final exists = filteredList.any(
-                        //       (userDoc) => userDoc['receiverId'] == userId);
-                        //   if (exists) {
-                        //     usersMessaged.add(doc);
-                        //   }
-                        // }
+
                         return
                             //  filteredList.isEmpty
                             //     ? const Text('No chats')
@@ -132,42 +111,34 @@ class ChatScreen extends StatelessWidget {
                                       .format(messageData['time'].toDate());
                                   return Padding(
                                     padding: const EdgeInsets.only(bottom: 0),
-                                    child: InkWell(
-                                      child: ListTile(
-                                        contentPadding: const EdgeInsets.only(
-                                            left: 15, right: 15),
-                                        // visualDensity: const VisualDensity(vertical: -4),
-                                        leading: CircleAvatar(
-                                          radius: 28,
-                                          backgroundColor: Colors.black,
-                                          child: CircleAvatar(
-                                            backgroundImage: NetworkImage(
-                                                docData['profileImage']),
-                                            // AssetImage('assets/logo/camLogo.png'),
-                                            radius: 26,
-                                          ),
-                                        ),
-                                        title: InkWell(
-                                            onTap: () {
-                                              Navigator.of(context)
-                                                  .push(MaterialPageRoute(
-                                                builder: (context) => Chats(
-                                                    recieverId: docData['uid'],
-                                                    userName:
-                                                        docData['userName']),
-                                              ));
-                                            },
-                                            child: Text(docData['userName'])),
-                                        subtitle: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(documents[index]
-                                                ['lastMessage']),
-                                            Text(formattedTime)
-                                          ],
+                                    child: ListTile(
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 15, right: 15),
+                                      // visualDensity: const VisualDensity(vertical: -4),
+                                      leading: CircleAvatar(
+                                        radius: 28,
+                                        backgroundColor: Colors.black,
+                                        child: CircleAvatar(
+                                          backgroundImage: NetworkImage(
+                                              docData['profileImage']),
+                                          // AssetImage('assets/logo/camLogo.png'),
+                                          radius: 26,
                                         ),
                                       ),
+                                      title: Text(docData['userName']),
+                                      subtitle: Text(
+                                        documents[index]['lastMessage'],
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      trailing: Text(formattedTime),
+                                      onTap: () {
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                          builder: (context) => Chats(
+                                              recieverId: docData['uid'],
+                                              userName: docData['userName']),
+                                        ));
+                                      },
                                     ),
                                   );
                                 });

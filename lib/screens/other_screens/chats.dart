@@ -46,7 +46,6 @@ class Chats extends StatelessWidget {
               );
             } else {
               final documents = snapshot.data!.docs;
-              print(documents.length);
               return ListView.builder(
                 itemCount: documents.length,
                 itemBuilder: (context, index) {
@@ -90,17 +89,14 @@ class Chats extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: () {},
-                child: InkWell(
-                  child: Row(
-                    children: const [Icon(Icons.send)],
-                  ),
-                  onTap: () async {
-                    await ChatService()
-                        .sendMessage(user.uid, recieverId, chatController.text);
-                    chatController.text = '';
-                  },
+                child: Row(
+                  children: const [Icon(Icons.send)],
                 ),
+                onTap: () async {
+                  await ChatService()
+                      .sendMessage(user.uid, recieverId, chatController.text);
+                  chatController.text = '';
+                },
               )
             ],
           ),

@@ -37,13 +37,39 @@ class FireStore {
       Uint8List profileImage, BuildContext context) async {
     String imagePath = await StorageMethods()
         .uploadImageToStorage('profilePics', profileImage, false);
+    try {
+      await _fireStore.collection('users').doc(_auth.currentUser!.uid).update(
+          {'userName': userName, 'bio': bio, 'profileImage': imagePath});
 
-    await _fireStore
-        .collection('users')
-        .doc(_auth.currentUser!.uid)
-        .update({'userName': userName, 'bio': bio, 'profileImage': imagePath});
+      Provider.of<UserProvider>(context).refreshUser();
+      updatePost(userName, imagePath);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
-    Provider.of<UserProvider>(context).refreshUser();
+  //change post details according to change in post
+
+  Future<void> updatePost(String userName, String imagePath) async {
+    WriteBatch batch = FirebaseFirestore.instance.batch();
+
+    QuerySnapshot<Map<String, dynamic>> posts = await FirebaseFirestore.instance
+        .collection('posts')
+        .where('uid', isEqualTo: _auth.currentUser!.uid)
+        .get();
+
+    final data = posts.docs;
+    print("Number of documents: ${data.length}");
+    print("Updating with userName: $userName and imagePath: $imagePath");
+
+    for (var docs in data) {
+      batch.update(docs.reference, {
+        'userName': userName,
+        'profileImage': imagePath,
+      });
+    }
+
+    await batch.commit();
   }
 
   //method to add a post

@@ -153,10 +153,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pixmania/providers/userprovider.dart';
+import 'package:pixmania/screens/other_screens/edit_profile.dart';
 import 'package:pixmania/services/firestore.dart';
 import 'package:pixmania/widgets/login_widgets/button.dart';
-import 'package:pixmania/widgets/login_widgets/colors.dart';
-import 'package:pixmania/widgets/login_widgets/formfield.dart';
 import 'package:pixmania/services/auth.dart';
 import 'package:provider/provider.dart';
 import '../../models/usermodel.dart';
@@ -197,7 +196,10 @@ class _SettingScreenState extends State<SettingScreen> {
             TextButton.icon(
               label: const Text('Edit Profile'),
               onPressed: () {
-                _showAlertDialog(context, imagePath);
+                // _showAlertDialog(context, imagePath);
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const EditProfile(),
+                ));
               },
               icon: const Icon(Icons.person),
             ),
@@ -228,89 +230,92 @@ class _SettingScreenState extends State<SettingScreen> {
       }
     }
 
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return AlertDialog(
-              backgroundColor: scafoldBg,
-              actions: <Widget>[
-                Column(
-                  children: [
-                    Stack(
-                      children: [
-                        selectedImage != null
-                            ? CircleAvatar(
-                                radius: 65,
-                                backgroundImage: MemoryImage(selectedImage!),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(10.0),
-                                ),
-                              )
-                            : CircleAvatar(
-                                radius: 65,
-                                backgroundImage: NetworkImage(imagepath),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(10.0),
-                                ),
-                              ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: IconButton(
-                            onPressed: () {
-                              imagepick();
-                            },
-                            icon: const Icon(Icons.add_a_photo),
-                          ),
-                        ),
-                      ],
-                    ),
-                    CustomFormfield(
-                      controller: nameController,
-                      hintText: 'Enter Username',
-                      label: 'Username',
-                    ),
-                    CustomFormfield(
-                      controller: bioController,
-                      hintText: 'Tell about yourself',
-                      label: 'Bio',
-                    ),
-                    SubmitButton(
-                      title: 'Save Changes',
-                      onpressfun: () {
-                        saveProfile(
-                          nameController.text,
-                          bioController.text,
-                          selectedImage,
-                          context,
-                        );
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
+    // showDialog(
+    //   context: context,
+    //   builder: (BuildContext context) {
+    //     return StatefulBuilder(
+    //       builder: (BuildContext context, StateSetter setState) {
+    //         return AlertDialog(
+    //           backgroundColor: scafoldBg,
+    //           actions: <Widget>[
+    //             Column(
+    //               children: [
+    //                 Stack(
+    //                   children: [
+    //                     selectedImage != null
+    //                         ? CircleAvatar(
+    //                             radius: 65,
+    //                             backgroundImage: MemoryImage(selectedImage!),
+    //                             child: const Padding(
+    //                               padding: EdgeInsets.all(10.0),
+    //                             ),
+    //                           )
+    //                         : CircleAvatar(
+    //                             radius: 65,
+    //                             backgroundImage: NetworkImage(imagepath),
+    //                             child: const Padding(
+    //                               padding: EdgeInsets.all(10.0),
+    //                             ),
+    //                           ),
+    //                     Positioned(
+    //                       bottom: 0,
+    //                       right: 0,
+    //                       child: IconButton(
+    //                         onPressed: () {
+    //                           imagepick();
+    //                         },
+    //                         icon: const Icon(Icons.add_a_photo),
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 ),
+    //                 CustomFormfield(
+    //                   controller: nameController,
+    //                   hintText: 'Enter Username',
+    //                   label: 'Username',
+    //                 ),
+    //                 CustomFormfield(
+    //                   controller: bioController,
+    //                   hintText: 'Tell about yourself',
+    //                   label: 'Bio',
+    //                 ),
+    //                 SubmitButton(
+    //                   title: 'Save Changes',
+    //                   onpressfun: () {
+    //                     saveProfile(
+    //                       nameController.text,
+    //                       bioController.text,
+    //                       selectedImage,
+    //                       context,
+    //                     );
+    //                     Navigator.pop(context);
+    //                   },
+    //                 ),
+    //               ],
+    //             ),
+    //           ],
+    //         );
+    //       },
+    //     );
+    //   },
+    // );
   }
 
-  void saveProfile(
-    String userName,
-    String bio,
-    Uint8List? image,
-    BuildContext context,
-  ) {
-    if (image != null) {
-      FireStore().uploadProfile(userName, bio, image, context);
-    } else {
-      // Handle the case when no image is selected
-    }
-  }
+  // Future<String> saveProfile(
+  //   String userName,
+  //   String bio,
+  //   Uint8List? image,
+  //   BuildContext context,
+  // ) {
+  //   Future<String> res;
+  //   if (image != null) {
+  //     res = FireStore().uploadProfile(userName, bio, image, context);
+  //   } else {
+  //     res = 'error' as Future<String>;
+  //     // Handle the case when no image is selected
+  //   }
+  //   return res;
+  // }
 }
 
 Future<Uint8List?> pickImage(ImageSource imageSource) async {
