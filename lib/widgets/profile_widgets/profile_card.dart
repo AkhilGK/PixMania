@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/screens/other_screens/follow_unfollow.dart';
-import 'package:pixmania/screens/other_screens/settings_screen.dart';
+import 'package:pixmania/screens/settings/settings_screen.dart';
 import 'package:pixmania/services/firestore.dart';
 import 'package:pixmania/models/usermodel.dart';
 
@@ -70,7 +70,7 @@ class ProfileCard extends StatelessWidget {
                           ],
                         ),
                       ),
-                      GestureDetector(
+                      InkWell(
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
@@ -78,7 +78,10 @@ class ProfileCard extends StatelessWidget {
                             ),
                           );
                         },
-                        child: const Icon(Icons.menu),
+                        child: const Padding(
+                          padding: EdgeInsets.only(bottom: 10.0),
+                          child: Icon(Icons.menu),
+                        ),
                       ),
                     ],
                   ),

@@ -13,7 +13,8 @@ const kboxDecoration = BoxDecoration(
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
       colors: <Color>[
-        Color.fromARGB(255, 196, 212, 208),
+        Color.fromARGB(255, 134, 233, 187),
+        Color.fromARGB(255, 225, 179, 247),
         Color.fromARGB(255, 134, 233, 187),
       ]),
 );

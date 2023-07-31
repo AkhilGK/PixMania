@@ -97,7 +97,8 @@ class VisitProfile extends StatelessWidget {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => Chats(
                                     recieverId: snap['uid'],
-                                    userName: snap['userName']),
+                                    userName: snap['userName'],
+                                    profileImage: user['profileImage']),
                               ));
                             },
                             child: const Text('Message'),

@@ -27,12 +27,7 @@ class FireStore {
     return UserData.fromSnap(snap);
   }
 
-//stream to get user data
-  // Stream<QueryDocumentSnapshot> get users {
-  //   return userCollectionReference.snapshots();
-  // }
-
-//update the profile picture only using update method
+//updaate profile
   Future<void> uploadProfile(String userName, String bio,
       Uint8List profileImage, BuildContext context) async {
     String imagePath = await StorageMethods()

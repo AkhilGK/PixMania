@@ -90,7 +90,7 @@ class _EditProfileState extends State<EditProfile> {
                           Navigator.of(context).pop();
                         } else {
                           showSnackBar(context,
-                              "Select an Image and feilds can't be empty");
+                              "Select an Image and  feilds can't be empty");
                         }
                       })
             ],

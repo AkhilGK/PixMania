@@ -26,9 +26,9 @@ class ChatScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
+                    padding: const EdgeInsets.only(left: 25.0),
                     child: Text(
-                      user.userName!,
+                      user.userName ?? 'user',
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 20),
                     ),
@@ -38,7 +38,8 @@ class ChatScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 15.0),
                   child: CircleAvatar(
                     radius: 25,
-                    backgroundImage: NetworkImage(user.profileImage!),
+                    backgroundImage: NetworkImage(user.profileImage ??
+                        'https://firebasestorage.googleapis.com/v0/b/pixmania-182c7.appspot.com/o/profilePics%2FcamLogo.png?alt=media&token=6994a6f8-fc44-4dfa-a328-c964db9a19d8'),
                   ),
                 )
               ],
@@ -55,60 +56,75 @@ class ChatScreen extends StatelessWidget {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: SpinKitWaveSpinner(
-                      size: 80,
-                      color: Colors.teal,
-                    ),
-                  );
+                  return const Center(child: SizedBox()
+                      //  SpinKitWaveSpinner(
+                      //   size: 80,
+                      //   color: Colors.teal,
+                      // ),
+                      );
                 } else if (snapshot.hasError) {
                   return Center(
                     child: Text('Error:${snapshot.error}'),
                   );
-                }
-                final documents = snapshot.data?.docs;
-
-                return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                    stream: FirebaseFirestore.instance
-                        .collection('users')
-                        .snapshots(),
-                    builder: (context, userSnapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: SpinKitWaveSpinner(
-                            size: 80,
-                            color: Colors.teal,
-                          ),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Center(
-                          child: Text('Error:${snapshot.error}'),
-                        );
-                      } else {
-                        final userList = userSnapshot.data?.docs;
-
-                        return
-                            //  filteredList.isEmpty
-                            //     ? const Text('No chats')
-                            //     :
-                            ListView.builder(
+                } else if (!snapshot.hasData) {
+                  return const Center(
+                    child: Text('No Chats'),
+                  );
+                } else {
+                  //total chat contacts
+                  // final documents = snapshot.data!.docs;
+                  final documents = snapshot.data?.docs ?? [];
+                  if (documents.isEmpty) {
+                    return const Center(
+                      child: Text('No Chats'),
+                    );
+                  } else {
+                    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                        stream: FirebaseFirestore.instance
+                            .collection('users')
+                            .snapshots(),
+                        builder: (context, userSnapshot) {
+                          if (userSnapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: SpinKitWaveSpinner(
+                                size: 80,
+                                color: Colors.teal,
+                              ),
+                            );
+                          } else if (userSnapshot.hasError) {
+                            return Center(
+                              child: Text('Error:${snapshot.error}'),
+                            );
+                          } else if (!userSnapshot.hasData) {
+                            return const Center(
+                              child: Text('No Chats'),
+                            );
+                          } else {
+                            //total users
+                            final userList = userSnapshot.data?.docs ?? [];
+                            return ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                itemCount: documents!.length,
+                                itemCount: documents.length,
                                 itemBuilder: (context, index) {
                                   final messageData = documents[index];
                                   QueryDocumentSnapshot<Map<String, dynamic>>
                                       docData = documents[index];
-                                  for (final doc in userList!) {
+                                  for (final doc in userList) {
                                     if (doc['uid'] ==
                                         messageData['receiverId']) {
                                       docData = doc;
+                                      break;
                                     }
                                   }
-                                  // final docData = filteredList[index].data();
-                                  // final userdata = usersMessaged[index].data();
+                                  const fallBackImage =
+                                      'https://firebasestorage.googleapis.com/v0/b/pixmania-182c7.appspot.com/o/profilePics%2FcamLogo.png?alt=media&token=6994a6f8-fc44-4dfa-a328-c964db9a19d8';
+                                  final profileImage =
+                                      docData['profileImage'] ?? fallBackImage;
                                   String formattedTime = DateFormat('hh:mm a')
                                       .format(messageData['time'].toDate());
+
                                   return Padding(
                                     padding: const EdgeInsets.only(bottom: 0),
                                     child: ListTile(
@@ -119,15 +135,19 @@ class ChatScreen extends StatelessWidget {
                                         radius: 28,
                                         backgroundColor: Colors.black,
                                         child: CircleAvatar(
-                                          backgroundImage: NetworkImage(
-                                              docData['profileImage']),
+                                          backgroundImage:
+                                              NetworkImage(profileImage),
                                           // AssetImage('assets/logo/camLogo.png'),
                                           radius: 26,
                                         ),
                                       ),
-                                      title: Text(docData['userName']),
+                                      title: Text(
+                                        docData['userName'] ?? 'pixMania user',
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                       subtitle: Text(
-                                        documents[index]['lastMessage'],
+                                        messageData['lastMessage'],
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                       trailing: Text(formattedTime),
@@ -136,14 +156,19 @@ class ChatScreen extends StatelessWidget {
                                             .push(MaterialPageRoute(
                                           builder: (context) => Chats(
                                               recieverId: docData['uid'],
-                                              userName: docData['userName']),
+                                              userName: docData['userName'],
+                                              profileImage:
+                                                  docData['profileImage'] ??
+                                                      fallBackImage),
                                         ));
                                       },
                                     ),
                                   );
                                 });
-                      }
-                    });
+                          }
+                        });
+                  }
+                }
               },
             ),
           ],
