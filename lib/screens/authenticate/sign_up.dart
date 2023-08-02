@@ -1,12 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pixmania/widgets/common_widgets/back_button.dart';
-import 'package:pixmania/widgets/login_widgets/appbar.dart';
-import 'package:pixmania/widgets/login_widgets/button.dart';
-import 'package:pixmania/widgets/login_widgets/formfield.dart';
+import 'package:pixmania/screens/authenticate/authscreen_widgets/appbar.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/services/auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:pixmania/widgets/common_widgets/formfeild.dart';
+import 'package:pixmania/widgets/common_widgets/submit_button.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -45,7 +47,6 @@ class _SignUpState extends State<SignUp> {
             child: Form(
               key: formkey,
               child: Column(
-                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text("Let's share the precious moments...",
                       style: GoogleFonts.monoton(fontSize: 16)),
@@ -79,19 +80,20 @@ class _SignUpState extends State<SignUp> {
                     obscureText: true,
                     isPassword: true,
                   ),
-                  SubmitButton(
-                      title: 'Register', onpressfun: _registerButtonPressed),
+                  // SubmitButton(
+                  //     title: 'Register', onpressfun: _registerButtonPressed),
+                  isLoading
+                      ? SubmitButton(
+                          title: 'Register', onpressfun: _registerButtonPressed)
+                      : const SpinKitWaveSpinner(
+                          color: Colors.teal,
+                        ),
                   isLoading
                       ? Text(
                           error,
                           style: const TextStyle(color: Colors.red),
                         )
                       : const SizedBox(),
-                  isLoading
-                      ? const SpinKitWaveSpinner(
-                          color: Colors.teal,
-                        )
-                      : const CircularProgressIndicator(),
                 ],
               ),
             ),

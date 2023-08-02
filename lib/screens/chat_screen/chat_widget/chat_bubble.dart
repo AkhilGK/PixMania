@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
 class ChatBubble extends StatelessWidget {
@@ -26,16 +28,18 @@ class ChatBubble extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: isUsersMessage
-                  ? const Color.fromARGB(255, 26, 175, 160)
+                  ? const Color.fromARGB(255, 181, 243, 238)
                   : const Color.fromARGB(255, 160, 223, 158),
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: isUsersMessage
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
               children: [
                 Text(
                   message,
                   style: TextStyle(
-                    color: isUsersMessage ? Colors.white : Colors.black,
+                    color: isUsersMessage ? Colors.black : Colors.black,
                     fontSize: 16,
                   ),
                 ),
@@ -44,7 +48,7 @@ class ChatBubble extends StatelessWidget {
                   time,
                   style: TextStyle(
                     color: isUsersMessage
-                        ? Colors.white.withOpacity(0.8)
+                        ? Colors.black.withOpacity(0.8)
                         : Colors.black.withOpacity(0.6),
                     fontSize: 12,
                   ),

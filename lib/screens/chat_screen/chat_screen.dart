@@ -1,10 +1,12 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/providers/userprovider.dart';
-import 'package:pixmania/screens/other_screens/chats.dart';
+import 'package:pixmania/screens/chat_screen/chats.dart';
 import 'package:pixmania/services/auth.dart';
 import 'package:pixmania/models/usermodel.dart';
 import 'package:provider/provider.dart';

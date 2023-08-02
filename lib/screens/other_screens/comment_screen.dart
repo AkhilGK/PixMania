@@ -1,11 +1,14 @@
+// ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables, use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/services/firestore.dart';
 import 'package:pixmania/models/usermodel.dart';
 import 'package:pixmania/utils/utils.dart';
-import 'package:pixmania/widgets/homescreen_widgets/comment_card.dart';
 import 'package:provider/provider.dart';
+
+import '../home_screen/homescreen_widgets/comment_card.dart';
 
 class CommentScreen extends StatelessWidget {
   CommentScreen({super.key, required this.snap});

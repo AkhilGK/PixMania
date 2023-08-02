@@ -1,10 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pixmania/widgets/login_widgets/appbar.dart';
-import 'package:pixmania/widgets/login_widgets/button.dart';
-import 'package:pixmania/widgets/login_widgets/formfield.dart';
+import 'package:pixmania/screens/authenticate/authscreen_widgets/appbar.dart';
 import 'package:pixmania/constants/constants.dart';
+import 'package:pixmania/widgets/common_widgets/formfeild.dart';
+import 'package:pixmania/widgets/common_widgets/submit_button.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({super.key});
@@ -14,7 +16,6 @@ class ForgetPassword extends StatefulWidget {
 }
 
 class _ForgetPasswordState extends State<ForgetPassword> {
-  @override
   final TextEditingController userIdController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
@@ -40,7 +41,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             child: Form(
               key: formkey,
               child: Column(
-                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text("Let's share the precious moments...",
                       style: GoogleFonts.monoton(fontSize: 16)),
@@ -93,7 +93,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             duration: Duration(seconds: 3),
           ),
         );
-        print(e.toString());
       }
     }
   }

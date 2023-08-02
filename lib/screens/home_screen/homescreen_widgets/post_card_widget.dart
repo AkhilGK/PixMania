@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, must_be_immutable, prefer_typing_uninitialized_variables
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
@@ -113,6 +113,7 @@ class PostCard extends StatelessWidget {
                 ? IconButton(
                     onPressed: () async {
                       AwesomeDialog(
+                        dialogBackgroundColor: scafoldBg,
                         context: context,
                         dialogType: DialogType
                             .warning, // Change it as per your requirements

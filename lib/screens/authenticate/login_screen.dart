@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pixmania/widgets/login_widgets/appbar.dart';
-import 'package:pixmania/widgets/login_widgets/button.dart';
-import 'package:pixmania/widgets/login_widgets/formfield.dart';
-import 'package:pixmania/widgets/login_widgets/mail_fb_sign.dart';
+import 'package:pixmania/screens/authenticate/authscreen_widgets/appbar.dart';
+import 'package:pixmania/screens/authenticate/authscreen_widgets/mail_fb_sign.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/screens/authenticate/forget_password.dart';
 import 'package:pixmania/screens/authenticate/sign_up.dart';
 import 'package:pixmania/services/auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:pixmania/widgets/common_widgets/formfeild.dart';
+import 'package:pixmania/widgets/common_widgets/submit_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -29,8 +29,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // double width = MediaQuery.of(context).size.width;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -38,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
         flexibleSpace: const CustomAppbar(),
         title: Image.asset("assets/logo/logo_transparent.png"),
         automaticallyImplyLeading: false,
-        toolbarHeight: 130,
+        toolbarHeight: MediaQuery.of(context).size.height * 0.2,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -46,13 +44,10 @@ class _LoginScreenState extends State<LoginScreen> {
             key: formkey,
             child: Column(
               children: [
-                // const Center(child: NamePixmania()),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
-                    // crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // NamePixmania(),
                       Text("Let's share the precious moments...",
                           style: GoogleFonts.monoton(fontSize: 16)),
                       kbox30,
@@ -208,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
           error = "Sign In Failed, User not found.";
         });
       } else {
-        print("Signed In");
+        // print("Signed In");
       }
 
       setState(() {

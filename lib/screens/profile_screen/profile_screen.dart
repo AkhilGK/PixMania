@@ -1,10 +1,12 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/screens/other_screens/posts_inprofile.dart';
 import 'package:pixmania/services/auth.dart';
-import 'package:pixmania/widgets/profile_widgets/profile_card.dart';
+import 'package:pixmania/screens/profile_screen/profile_widgets/profile_card.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({
@@ -50,7 +52,6 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         itemCount: documents.length,
                         itemBuilder: (BuildContext context, int index) {
-                          // Post user = Post.fromSnap(documents[index]);
                           return InkWell(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
@@ -66,10 +67,6 @@ class ProfileScreen extends StatelessWidget {
                                       fit: BoxFit.cover,
                                       image: NetworkImage(
                                           documents[index].data()['postUrl']))),
-                              // child: Image.network(
-                              //   documents[index].data()['postUrl'],
-                              //   fit: BoxFit.cover,
-                              // ),
                             ),
                           );
                         },

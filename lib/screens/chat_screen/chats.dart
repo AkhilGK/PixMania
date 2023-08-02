@@ -1,12 +1,13 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
-import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/models/usermodel.dart';
 import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/services/chat_services.dart';
-import 'package:pixmania/widgets/chat_widget/chat_bubble.dart';
+import 'package:pixmania/screens/chat_screen/chat_widget/chat_bubble.dart';
 import 'package:provider/provider.dart';
 
 class Chats extends StatelessWidget {
@@ -38,7 +39,9 @@ class Chats extends StatelessWidget {
         ],
       ),
       body: Container(
-        decoration: kboxDecoration,
+        // decoration: kboxDecoration,
+        decoration: const BoxDecoration(color: Colors.white70),
+
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
@@ -69,9 +72,7 @@ class Chats extends StatelessWidget {
                   itemCount: documents.length,
                   itemBuilder: (context, index) {
                     final chatData = documents[index];
-                    // ChatModel chat = ChatModel.fromJson(documents[index]);
                     bool isUserMessage = chatData['receiver'] != user.uid;
-                    // return Text(chatData['message']);
                     String formattedTime =
                         DateFormat('hh:mm a').format(chatData['time'].toDate());
 
@@ -109,13 +110,15 @@ class Chats extends StatelessWidget {
                 ),
               ),
               InkWell(
-                child: Row(
-                  children: const [Icon(Icons.send)],
+                child: const Row(
+                  children: [Icon(Icons.send)],
                 ),
                 onTap: () async {
-                  await ChatService()
-                      .sendMessage(user.uid, recieverId, chatController.text);
-                  chatController.text = '';
+                  if (chatController.text.isNotEmpty) {
+                    await ChatService()
+                        .sendMessage(user.uid, recieverId, chatController.text);
+                    chatController.text = '';
+                  }
                 },
               )
             ],

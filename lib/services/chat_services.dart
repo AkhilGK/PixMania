@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uuid/uuid.dart';
 
 import '../models/chatmodel.dart';
 
 class ChatService {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   //send message
   Future<void> sendMessage(
@@ -33,7 +31,7 @@ class ChatService {
         'lastMessage': message
       });
       await receiverInstance.doc(senderId).set({
-        'receiverId': receiverId,
+        'receiverId': senderId,
         'time': Timestamp.now(),
         'lastMessage': message
       });

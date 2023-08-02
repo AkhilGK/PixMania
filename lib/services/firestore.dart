@@ -28,6 +28,7 @@ class FireStore {
   }
 
 //updaate profile
+
   Future<void> uploadProfile(String userName, String bio,
       Uint8List profileImage, BuildContext context) async {
     String imagePath = await StorageMethods()

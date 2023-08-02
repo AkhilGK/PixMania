@@ -6,8 +6,8 @@ import 'package:pixmania/models/usermodel.dart';
 import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/services/firestore.dart';
 import 'package:pixmania/utils/utils.dart';
-import 'package:pixmania/widgets/login_widgets/button.dart';
-import 'package:pixmania/widgets/login_widgets/formfield.dart';
+import 'package:pixmania/widgets/common_widgets/formfeild.dart';
+import 'package:pixmania/widgets/common_widgets/submit_button.dart';
 import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
@@ -67,6 +67,7 @@ class _EditProfileState extends State<EditProfile> {
                 controller: nameController,
                 hintText: 'Enter Username',
                 label: 'Username',
+                length: 15,
               ),
               CustomFormfield(
                 controller: bioController,
@@ -131,7 +132,6 @@ class _EditProfileState extends State<EditProfile> {
     if (file != null) {
       return file.readAsBytes();
     }
-    print('image not picked');
     return null;
   }
 }

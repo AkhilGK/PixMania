@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
 class CustomFormfield extends StatefulWidget {
@@ -7,12 +9,14 @@ class CustomFormfield extends StatefulWidget {
       this.hintText,
       this.label,
       this.obscureText = false,
-      this.isPassword = false});
+      this.isPassword = false,
+      this.length = 25});
   final TextEditingController? controller;
   final String? hintText;
   final String? label;
   bool obscureText;
   bool isPassword;
+  int length;
 
   @override
   State<CustomFormfield> createState() => _CustomFormfieldState();
@@ -35,8 +39,9 @@ class _CustomFormfieldState extends State<CustomFormfield> {
         controller: widget.controller,
         obscureText: widget.obscureText,
         // keyboardType: TextInputType.number,
-        // maxLength: 12,
+        maxLength: widget.length,
         decoration: InputDecoration(
+            counterText: '',
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(50)),
             hintText: widget.hintText,
             labelText: widget.label,

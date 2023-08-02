@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pixmania/constants/constants.dart';
-import 'package:pixmania/widgets/search_widgets/search_result.dart';
-import 'package:pixmania/widgets/search_widgets/search_suggestions.dart';
+import 'package:pixmania/screens/search_screen/searchscreen_widgets/search_result.dart';
+import 'package:pixmania/screens/search_screen/searchscreen_widgets/search_suggestions.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -42,13 +42,13 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           Expanded(
               child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 500),
-                  child: query == ''
-                      ? const SearchSuggestions()
-                      : SearchResult(
-                          query: query,
-                        ),
-                        ))
+            duration: const Duration(milliseconds: 500),
+            child: query == ''
+                ? const SearchSuggestions()
+                : SearchResult(
+                    query: query,
+                  ),
+          ))
         ],
       ),
     );

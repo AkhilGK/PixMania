@@ -10,7 +10,6 @@ import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/services/firestore.dart';
 import 'package:pixmania/models/usermodel.dart';
 import 'package:pixmania/utils/utils.dart';
-import 'package:pixmania/widgets/login_widgets/colors.dart';
 import 'package:provider/provider.dart';
 
 class AddPost extends StatefulWidget {
@@ -92,21 +91,25 @@ class _AddPostState extends State<AddPost> {
     final UserData user = Provider.of<UserProvider>(context).getUser;
     return _file == null
         ? Scaffold(
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        _selectImage(context);
-                      },
-                      icon: const Icon(
-                        Icons.upload_file_outlined,
-                        size: 25,
-                      )),
-                  Text("Let's share the precious moments...",
-                      style: GoogleFonts.monoton(fontSize: 16)),
-                ],
+            body: Container(
+              decoration: kboxDecoration,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          _selectImage(context);
+                        },
+                        icon: const Icon(
+                          Icons.upload_file_outlined,
+                          size: 45,
+                        )),
+                    kbox10,
+                    Text("Let's share the precious moments...",
+                        style: GoogleFonts.monoton(fontSize: 16)),
+                  ],
+                ),
               ),
             ),
           )

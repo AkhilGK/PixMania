@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, prefer_typing_uninitialized_variables, must_be_immutable
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/providers/userprovider.dart';
-import 'package:pixmania/screens/other_screens/chats.dart';
+import 'package:pixmania/screens/chat_screen/chats.dart';
 import 'package:pixmania/screens/other_screens/posts_inprofile.dart';
 import 'package:pixmania/services/firestore.dart';
 import 'package:pixmania/models/usermodel.dart';
@@ -16,9 +16,6 @@ class VisitProfile extends StatelessWidget {
   VisitProfile({super.key, required this.snap});
   final snap;
   bool isfollowing = false;
-
-  // String uid;
-  // String name;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +34,6 @@ class VisitProfile extends StatelessWidget {
                 .get(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                // return const SizedBox();
                 return const Center(
                     child: SpinKitWaveSpinner(
                   size: 80,
@@ -144,6 +140,7 @@ class VisitProfile extends StatelessWidget {
                             return ElevatedButton(
                               onPressed: () {
                                 AwesomeDialog(
+                                  dialogBackgroundColor: scafoldBg,
                                   context: context,
                                   dialogType: DialogType
                                       .warning, // Change it as per your requirements
@@ -213,7 +210,6 @@ class VisitProfile extends StatelessWidget {
                         ),
                         itemCount: documents.length,
                         itemBuilder: (BuildContext context, int index) {
-                          // Post user = Post.fromSnap(documents[index]);
                           return InkWell(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(

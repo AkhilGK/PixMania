@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/screens/other_screens/add_post.dart';
-import 'package:pixmania/screens/other_screens/chat_screen.dart';
-import 'package:pixmania/screens/other_screens/home.dart';
-import 'package:pixmania/screens/other_screens/profile_screen.dart';
-import 'package:pixmania/screens/other_screens/search_screen.dart';
+import 'package:pixmania/screens/chat_screen/chat_screen.dart';
+import 'package:pixmania/screens/home_screen/home.dart';
+import 'package:pixmania/screens/profile_screen/profile_screen.dart';
+import 'package:pixmania/screens/search_screen/search_screen.dart';
 import 'package:pixmania/services/auth.dart';
-import 'package:provider/provider.dart';
+import 'package:pixmania/services/zego_call_services.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -20,12 +19,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ZegoService(ctx: context).onUserLogin();
+  }
+
   AuthServices auth = AuthServices();
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   addData();
-  // }
 
   final _pages = [
     const Home(),
@@ -34,14 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
     ProfileScreen()
   ];
 
-  // addData() async {
-  //   UserProvider userProvider = Provider.of(context, listen: false);
-  //   await userProvider.refreshUser();
-  // }
-
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -73,11 +68,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     gap: 2,
                     backgroundColor: Colors.white,
                     tabBackgroundColor: const Color.fromARGB(255, 99, 116, 112),
-                    //const Color.fromARGB(255, 145, 202, 189)
                     tabs: const [
                       GButton(icon: Icons.home, text: "Home"),
                       GButton(icon: Icons.search, text: "Search"),
-                      // GButton(icon: Icons.add, text: "Add"),
                       GButton(icon: Icons.chat, text: "Chat"),
                       GButton(icon: Icons.person, text: "Profile")
                     ]),

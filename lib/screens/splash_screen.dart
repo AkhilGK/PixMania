@@ -1,7 +1,7 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:pixmania/widgets/login_widgets/name_logo.dart';
 import 'package:pixmania/screens/wrapper.dart';
+import 'package:pixmania/widgets/common_widgets/name_logo.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

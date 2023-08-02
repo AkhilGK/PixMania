@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pixmania/constants/constants.dart';
-import 'package:pixmania/widgets/homescreen_widgets/post_card_widget.dart';
+
+import '../home_screen/homescreen_widgets/post_card_widget.dart';
 
 class ViewPost extends StatelessWidget {
   const ViewPost({super.key, required this.snap});

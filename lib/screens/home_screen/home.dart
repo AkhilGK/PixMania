@@ -4,11 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pixmania/constants/constants.dart';
-import 'package:pixmania/widgets/homescreen_widgets/post_card_widget.dart';
-import '../../widgets/login_widgets/name_logo.dart';
+import 'package:pixmania/widgets/common_widgets/name_logo.dart';
+import 'homescreen_widgets/post_card_widget.dart';
 
 class Home extends StatelessWidget {
-  const Home({Key? key});
+  const Home({super.key});
 
   @override
   Widget build(BuildContext context) {

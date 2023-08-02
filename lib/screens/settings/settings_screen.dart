@@ -5,6 +5,7 @@ import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/screens/settings/edit_profile.dart';
 import 'package:pixmania/services/auth.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -33,11 +34,6 @@ class _SettingScreenState extends State<SettingScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextButton.icon(
-                // style: ButtonStyle(
-                //   side: MaterialStateProperty.all(
-                //     const BorderSide(width: 1.0, color: Colors.black),
-                //   ),
-                // ),
                 label: const Text(
                   'Edit Profile',
                   style: TextStyle(fontSize: 18),
@@ -66,6 +62,8 @@ class _SettingScreenState extends State<SettingScreen> {
                 ),
                 onPressed: () {
                   AwesomeDialog(
+                    dialogBackgroundColor: scafoldBg,
+
                     context: context,
                     dialogType: DialogType
                         .warning, // Change it as per your requirements
@@ -75,41 +73,54 @@ class _SettingScreenState extends State<SettingScreen> {
                     btnCancelOnPress: () {},
                     btnOkOnPress: () async {
                       logOut();
+                      Navigator.of(context).pop();
                     },
                   ).show();
                 },
                 icon: const Icon(Icons.logout),
               ),
               const Divider(),
+              //delete accnt
               TextButton.icon(
                 label: const Text(
                   'Delete Account',
                   style: TextStyle(fontSize: 18),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  AwesomeDialog(
+                    dialogBackgroundColor: scafoldBg,
+                    context: context,
+                    dialogType: DialogType.error,
+                    animType: AnimType.scale,
+                    title: 'Delete the account?',
+                    desc: 'The account will be deleted permanently',
+                    btnCancelOnPress: () {},
+                    btnOkOnPress: () async {},
+                  ).show();
+                },
                 icon: const Icon(Icons.delete_forever_outlined),
               ),
               const Divider(),
               TextButton.icon(
                 label: const Text(
-                  'Customer Care',
+                  'Feedback',
                   style: TextStyle(fontSize: 18),
                 ),
                 onPressed: () {
                   AwesomeDialog(
+                    dialogBackgroundColor: scafoldBg,
                     context: context,
-                    dialogType: DialogType
-                        .infoReverse, // Change it as per your requirements
+                    dialogType: DialogType.infoReverse,
                     animType: AnimType.scale,
                     title: 'Mail Us',
-                    desc: 'Press ok to email us ',
+                    desc: 'Press ok to feedback mail ',
                     btnCancelOnPress: () {},
                     btnOkOnPress: () async {
                       launchUrlString('mailto:nanohardbro@gmail.com');
                     },
                   ).show();
                 },
-                icon: const Icon(Icons.call),
+                icon: const Icon(Icons.mail_outline_outlined),
               ),
               const Divider(),
               TextButton.icon(
@@ -117,9 +128,12 @@ class _SettingScreenState extends State<SettingScreen> {
                   'Share',
                   style: TextStyle(fontSize: 18),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Share.share('pixMania');
+                },
                 icon: const Icon(Icons.share),
               ),
+              const Divider(),
             ],
           ),
         ),
