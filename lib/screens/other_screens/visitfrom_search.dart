@@ -12,15 +12,15 @@ import 'package:pixmania/services/firestore.dart';
 import 'package:pixmania/models/usermodel.dart';
 import 'package:provider/provider.dart';
 
-class VisitProfile extends StatelessWidget {
-  VisitProfile({super.key, required this.snap});
-  final snap;
+class VisitFromSearch extends StatelessWidget {
+  VisitFromSearch({super.key, required this.userData});
+  final UserData userData;
   bool isfollowing = false;
 
   @override
   Widget build(BuildContext context) {
-    UserData userData = Provider.of<UserProvider>(context).getUser;
-    ValueNotifier followNotify = ValueNotifier(userData.following);
+    UserData currentUser = Provider.of<UserProvider>(context).getUser;
+    ValueNotifier followNotify = ValueNotifier(currentUser.following);
     return Scaffold(
       body: SafeArea(
           child: Container(
@@ -32,7 +32,7 @@ class VisitProfile extends StatelessWidget {
             FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
               future: FirebaseFirestore.instance
                   .collection('users')
-                  .doc(snap['uid'])
+                  .doc(userData.uid)
                   .get(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -91,7 +91,7 @@ class VisitProfile extends StatelessWidget {
                               ],
                             ),
                             const Expanded(child: SizedBox(width: 5)),
-                            userData.uid == snap['uid']
+                            currentUser.uid == userData.uid
                                 ? const SizedBox()
                                 : ElevatedButton(
                                     style: const ButtonStyle(),
@@ -99,8 +99,8 @@ class VisitProfile extends StatelessWidget {
                                       Navigator.of(context)
                                           .push(MaterialPageRoute(
                                         builder: (context) => Chats(
-                                            recieverId: snap['uid'],
-                                            userName: snap['userName'],
+                                            recieverId: userData.uid,
+                                            userName: userData.userName!,
                                             profileImage: user['profileImage']),
                                       ));
                                     },
@@ -143,7 +143,7 @@ class VisitProfile extends StatelessWidget {
                         ValueListenableBuilder(
                           valueListenable: followNotify,
                           builder: (context, value, child) {
-                            if (followNotify.value.contains(snap['uid'])) {
+                            if (followNotify.value.contains(userData.uid)) {
                               return ElevatedButton(
                                 onPressed: () {
                                   AwesomeDialog(
@@ -157,7 +157,7 @@ class VisitProfile extends StatelessWidget {
                                     btnCancelOnPress: () {},
                                     btnOkOnPress: () async {
                                       await FireStore()
-                                          .unFollow(userData.uid, snap['uid']);
+                                          .unFollow(userData.uid, userData.uid);
                                       Provider.of<UserProvider>(context,
                                               listen: false)
                                           .refreshUser();
@@ -170,7 +170,7 @@ class VisitProfile extends StatelessWidget {
                               return ElevatedButton(
                                 onPressed: () async {
                                   await FireStore()
-                                      .follow(userData.uid, snap['uid']);
+                                      .follow(userData.uid, userData.uid);
                                   Provider.of<UserProvider>(context,
                                           listen: false)
                                       .refreshUser();
@@ -190,7 +190,7 @@ class VisitProfile extends StatelessWidget {
               child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                   stream: FirebaseFirestore.instance
                       .collection('posts')
-                      .where('uid', isEqualTo: snap['uid'])
+                      .where('uid', isEqualTo: userData.uid)
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {

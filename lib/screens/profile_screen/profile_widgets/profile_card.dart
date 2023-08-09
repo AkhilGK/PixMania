@@ -15,7 +15,7 @@ class ProfileCard extends StatelessWidget {
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-        color: Colors.white,
+        color: Colors.white70,
       ),
       margin: const EdgeInsets.all(0),
       child: StreamBuilder<DocumentSnapshot>(
@@ -32,9 +32,6 @@ class ProfileCard extends StatelessWidget {
 
             return Column(
               children: [
-                // const NamePixmania(),
-                // const CustomBackButton(),
-
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(

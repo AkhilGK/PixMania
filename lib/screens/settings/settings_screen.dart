@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pixmania/constants/constants.dart';
+import 'package:pixmania/screens/settings/delete_account.dart';
 import 'package:pixmania/screens/settings/edit_profile.dart';
 import 'package:pixmania/services/auth.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -95,7 +96,11 @@ class _SettingScreenState extends State<SettingScreen> {
                     title: 'Delete the account?',
                     desc: 'The account will be deleted permanently',
                     btnCancelOnPress: () {},
-                    btnOkOnPress: () async {},
+                    btnOkOnPress: () async {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => DeleteAccount(),
+                      ));
+                    },
                   ).show();
                 },
                 icon: const Icon(Icons.delete_forever_outlined),

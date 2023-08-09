@@ -7,8 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/providers/userprovider.dart';
-import 'package:pixmania/services/firestore.dart';
 import 'package:pixmania/models/usermodel.dart';
+import 'package:pixmania/services/firestore_services.dart';
 import 'package:pixmania/utils/utils.dart';
 import 'package:provider/provider.dart';
 
@@ -26,8 +26,10 @@ class _AddPostState extends State<AddPost> {
   final TextEditingController _descriptionController = TextEditingController();
   void postImage(String uid, String userName, String profileImage) async {
     try {
-      String res = await FireStore().uploadPost(
+      String res = await FirestoreServices().uploadPost(
           _descriptionController.text, _file!, uid, userName, profileImage);
+      // String res = FirestoreServices().uploadPost(
+      //     _descriptionController.text, _file, uid, userName, profileImage);
       if (res == 'Success') {
         showSnackBar(context, 'Posted');
         Navigator.of(context).pop();

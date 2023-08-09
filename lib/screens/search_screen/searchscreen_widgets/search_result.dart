@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pixmania/models/usermodel.dart';
+import 'package:pixmania/screens/other_screens/visitfrom_search.dart';
 
 class SearchResult extends StatelessWidget {
   SearchResult({super.key, required this.query});
@@ -31,7 +32,7 @@ class SearchResult extends StatelessWidget {
             snapshot.data!.docs;
         final List<UserData> users =
             documents.map((e) => UserData.fromSnap(e)).toList();
-        List result = users
+        List<UserData> result = users
             .where((element) => element.userName!
                 .trim()
                 .toLowerCase()
@@ -47,17 +48,21 @@ class SearchResult extends StatelessWidget {
                     .map((user) => Padding(
                           padding: const EdgeInsets.only(top: 5),
                           child: ListTile(
+                            onTap: () =>
+                                Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  VisitFromSearch(userData: user),
+                            )),
                             leading: CircleAvatar(
                               radius: 28,
                               backgroundColor: Colors.black,
                               child: CircleAvatar(
                                 backgroundImage:
-                                    NetworkImage(user.profileImage),
-                                // AssetImage('assets/logo/camLogo.png'),
+                                    NetworkImage(user.profileImage!),
                                 radius: 26,
                               ),
                             ),
-                            title: Text(user.userName),
+                            title: Text(user.userName!),
                           ),
                         ))
                     .toList(),

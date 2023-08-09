@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, empty_catches
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,7 +27,7 @@ class FireStore {
     return UserData.fromSnap(snap);
   }
 
-//updaate profile
+//update profile
 
   Future<void> uploadProfile(String userName, String bio,
       Uint8List profileImage, BuildContext context) async {
@@ -39,9 +39,7 @@ class FireStore {
 
       Provider.of<UserProvider>(context).refreshUser();
       updatePost(userName, imagePath);
-    } catch (e) {
-      print(e.toString());
-    }
+    } catch (e) {}
   }
 
   //change post details according to change in post
@@ -55,8 +53,6 @@ class FireStore {
         .get();
 
     final data = posts.docs;
-    print("Number of documents: ${data.length}");
-    print("Updating with userName: $userName and imagePath: $imagePath");
 
     for (var docs in data) {
       batch.update(docs.reference, {
@@ -112,9 +108,7 @@ class FireStore {
           'likes': FieldValue.arrayUnion([uid])
         });
       }
-    } catch (e) {
-      print(e.toString());
-    }
+    } catch (e) {}
   }
 
   //comment a post
@@ -138,9 +132,7 @@ class FireStore {
           'timeofComment': DateTime.now()
         });
       }
-    } catch (e) {
-      print(e.toString());
-    }
+    } catch (e) {}
   }
 
   //delete a comment
@@ -152,9 +144,7 @@ class FireStore {
           .collection('comments')
           .doc(commentId)
           .delete();
-    } catch (e) {
-      print(e.toString());
-    }
+    } catch (e) {}
   }
 
 //delete a post
@@ -166,20 +156,8 @@ class FireStore {
 
       // Delete the image from Firebase Storage
       await StorageMethods().deleteImageFromStorage(imageUrl);
-
-      print('Post and image successfully deleted.');
-    } catch (e) {
-      print('Error deleting post and image: ${e.toString()}');
-    }
+    } catch (e) {}
   }
-  // Future<void> deletePost(String postId, String imageUrl) async {
-  //   try {
-  //     await _fireStore.collection('posts').doc(postId).delete();
-  //     await _firebaseStorage.refFromURL(imageUrl).delete();
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
 
   //follow a user
   Future<void> follow(String userUid, String followUid) async {
@@ -190,9 +168,7 @@ class FireStore {
       await _fireStore.collection('users').doc(followUid).update({
         'followers': FieldValue.arrayUnion([userUid])
       });
-    } catch (e) {
-      print(e.toString());
-    }
+    } catch (e) {}
   }
 
   //unfollow
@@ -204,51 +180,6 @@ class FireStore {
       await _fireStore.collection('users').doc(followUid).update({
         'followers': FieldValue.arrayRemove([userUid])
       });
-    } catch (e) {
-      print(e.toString());
-    }
+    } catch (e) {}
   }
-
-  // //send message
-  // Future<void> sendMessage(
-  //   String senderId,
-  //   String receiverId,
-  //   String message,
-  // ) async {
-  //   String chatId = const Uuid().v4();
-
-  //   final chat = Chat(
-  //       chatId: chatId,
-  //       message: message,
-  //       time: Timestamp.now(),
-  //       receiver: receiverId);
-  //   final fireInstance =
-  //       _fireStore.collection('users').doc(senderId).collection('chats');
-  //   try {
-  //     //to set fields in user
-  //     await fireInstance.doc(receiverId).set({
-  //       'receiverId': receiverId,
-  //       'time': Timestamp.now(),
-  //       'lastMessage': message
-  //     });
-  //     await fireInstance.doc(senderId).set({
-  //       'receiverId': receiverId,
-  //       'time': Timestamp.now(),
-  //       'lastMessage': message
-  //     });
-  //     //to save chat
-  //     await fireInstance
-  //         .doc(receiverId)
-  //         .collection('messages')
-  //         .doc(chatId)
-  //         .set(chat.toJson());
-  //     await fireInstance
-  //         .doc(senderId)
-  //         .collection('messages')
-  //         .doc(chatId)
-  //         .set(chat.toJson());
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
 }

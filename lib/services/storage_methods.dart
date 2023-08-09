@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -18,13 +20,9 @@ class StorageMethods {
 
     UploadTask uploadTask = ref.putData(file);
 
-    //
-    //
-    //a change
-
-    ///
-    TaskSnapshot snap = uploadTask as TaskSnapshot;
+    TaskSnapshot snap = await uploadTask;
     String downloadUrl = await snap.ref.getDownloadURL();
+
     return downloadUrl;
   }
 
@@ -32,8 +30,6 @@ class StorageMethods {
   Future<void> deleteImageFromStorage(String imageUrl) async {
     try {
       await _storage.refFromURL(imageUrl).delete();
-    } catch (e) {
-      print('Error deleting image from Firebase Storage: ${e.toString()}');
-    }
+    } catch (e) {}
   }
 }

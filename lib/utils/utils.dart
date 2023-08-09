@@ -9,7 +9,6 @@ pickImage(ImageSource imageSource) async {
   if (file != null) {
     return file.readAsBytes();
   }
-  print('image not picked');
 }
 
 // for displaying snackbars

@@ -49,12 +49,22 @@ class Home extends StatelessWidget {
                 );
               } else {
                 final documents = snapshot.data!.docs;
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) => PostCard(snap: documents[index].data()),
-                    childCount: documents.length,
-                  ),
-                );
+                if (documents.isEmpty) {
+                  return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) =>
+                          const Center(child: Text('Not following anyone')),
+                      childCount: 1,
+                    ),
+                  );
+                } else {
+                  return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => PostCard(snap: documents[index]),
+                      childCount: documents.length,
+                    ),
+                  );
+                }
               }
             },
           ),

@@ -6,7 +6,6 @@ import 'package:pixmania/screens/home_screen/home.dart';
 import 'package:pixmania/screens/profile_screen/profile_screen.dart';
 import 'package:pixmania/screens/search_screen/search_screen.dart';
 import 'package:pixmania/services/auth.dart';
-import 'package:pixmania/services/zego_call_services.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -19,13 +18,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    ZegoService(ctx: context).onUserLogin();
-  }
-
   AuthServices auth = AuthServices();
 
   final _pages = [

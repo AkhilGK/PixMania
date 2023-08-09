@@ -70,6 +70,7 @@ class PostCard extends StatelessWidget {
             FireStore().likePost(snap['postId'], user.uid, snap['likes']);
           },
           child: Container(
+            decoration: const BoxDecoration(),
             child: InteractiveViewer(
                 child: Image(image: NetworkImage(snap['postUrl']))),
           ),

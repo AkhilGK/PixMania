@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
@@ -46,8 +48,6 @@ class ChatService {
           .collection('messages')
           .doc(chatId)
           .set(chat.toJson());
-    } catch (e) {
-      print(e.toString());
-    }
+    } catch (e) {}
   }
 }

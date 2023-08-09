@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -49,7 +51,6 @@ class AuthServices {
           return 'email-already-in-use';
         }
       }
-      print(e.toString());
       return null;
     }
   }
@@ -66,11 +67,44 @@ class AuthServices {
         if (e.code == 'user-not-found') {
           return 'user-not-found';
         }
-        print(e.toString());
       }
 
       return null;
     }
+  }
+
+  //delete account
+
+  Future deleteAccount(String email, String password) async {
+    try {
+      User user = FirebaseAuth.instance.currentUser!;
+      AuthCredential credentials =
+          EmailAuthProvider.credential(email: email, password: password);
+      UserCredential result =
+          await user.reauthenticateWithCredential(credentials);
+      await deleteUserRecords(result.user!.uid);
+      await result.user!.delete();
+      return true;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future deleteUserRecords(String uid) async {
+    try {
+      await _fireStore.collection('users').doc(uid).delete();
+      // Query to get all posts with the provided authorId
+      QuerySnapshot querySnapshot = await _fireStore
+          .collection('posts')
+          .where('uid', isEqualTo: uid)
+          .get();
+
+      // Loop through the documents and delete them one by one
+
+      for (var doc in querySnapshot.docs) {
+        await doc.reference.delete();
+      }
+    } catch (e) {}
   }
 
   // signing out
@@ -78,7 +112,6 @@ class AuthServices {
     try {
       return await _auth.signOut();
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }
@@ -121,7 +154,4 @@ class AuthServices {
     }
     return userCredential;
   }
-
-// ...
-
 }

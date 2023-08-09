@@ -51,8 +51,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text("Let's share the precious moments...",
                           style: GoogleFonts.monoton(fontSize: 16)),
                       kbox30,
-                      Row(
-                        children: const [
+                      const Row(
+                        children: [
                           Text(
                             'Login',
                             style: TextStyle(
@@ -111,8 +111,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       kbox30,
                       kbox20,
-                      Row(
-                        children: const [
+                      const Row(
+                        children: [
                           Expanded(
                             child: Divider(
                               thickness: 1,

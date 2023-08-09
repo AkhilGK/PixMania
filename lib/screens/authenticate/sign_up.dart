@@ -51,8 +51,8 @@ class _SignUpState extends State<SignUp> {
                   Text("Let's share the precious moments...",
                       style: GoogleFonts.monoton(fontSize: 16)),
                   kbox20,
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       CustomBackButton(),
                       Text(
                         'Sign Up',
@@ -129,7 +129,6 @@ class _SignUpState extends State<SignUp> {
           error = 'User already exists, Please sign In ';
         });
       } else {
-        print('Registered');
         Navigator.pop(context);
       }
     }
