@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pixmania/constants/constants.dart';
+import 'package:pixmania/screens/settings/about_us.dart';
 import 'package:pixmania/screens/settings/delete_account.dart';
 import 'package:pixmania/screens/settings/edit_profile.dart';
 import 'package:pixmania/services/auth.dart';
@@ -52,7 +53,11 @@ class _SettingScreenState extends State<SettingScreen> {
                   'About Us',
                   style: TextStyle(fontSize: 18),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const AboutUs(),
+                  ));
+                },
                 icon: const Icon(Icons.info),
               ),
               const Divider(),

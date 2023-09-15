@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pixmania/constants/constants.dart';
 import 'package:pixmania/providers/userprovider.dart';
 import 'package:pixmania/models/usermodel.dart';
-import 'package:pixmania/services/firestore_services.dart';
+import 'package:pixmania/services/firestore.dart';
 import 'package:pixmania/utils/utils.dart';
 import 'package:provider/provider.dart';
 
@@ -26,10 +26,9 @@ class _AddPostState extends State<AddPost> {
   final TextEditingController _descriptionController = TextEditingController();
   void postImage(String uid, String userName, String profileImage) async {
     try {
-      String res = await FirestoreServices().uploadPost(
+      String res = await FireStore().uploadPost(
           _descriptionController.text, _file!, uid, userName, profileImage);
-      // String res = FirestoreServices().uploadPost(
-      //     _descriptionController.text, _file, uid, userName, profileImage);
+
       if (res == 'Success') {
         showSnackBar(context, 'Posted');
         Navigator.of(context).pop();
@@ -93,23 +92,37 @@ class _AddPostState extends State<AddPost> {
     final UserData user = Provider.of<UserProvider>(context).getUser;
     return _file == null
         ? Scaffold(
-            body: Container(
-              decoration: kboxDecoration,
-              child: Center(
+            body: SafeArea(
+              child: Container(
+                decoration: kboxDecoration,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     IconButton(
                         onPressed: () {
-                          _selectImage(context);
+                          Navigator.of(context).pop();
                         },
-                        icon: const Icon(
-                          Icons.upload_file_outlined,
-                          size: 45,
-                        )),
-                    kbox10,
-                    Text("Let's share the precious moments...",
-                        style: GoogleFonts.monoton(fontSize: 16)),
+                        icon: const Icon(Icons.arrow_back_ios)),
+                    Expanded(
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  _selectImage(context);
+                                },
+                                icon: const Icon(
+                                  Icons.upload_file_outlined,
+                                  size: 45,
+                                )),
+                            kbox10,
+                            Text("Let's share the precious moments...",
+                                style: GoogleFonts.monoton(fontSize: 16)),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

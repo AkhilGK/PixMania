@@ -65,18 +65,32 @@ class VisitProfile extends StatelessWidget {
                         //   const BackButton(),
                         Row(
                           children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: CircleAvatar(
-                                backgroundColor: Colors.black,
-                                radius: 46.5,
-                                child: CircleAvatar(
-                                  radius: 45,
-                                  backgroundImage:
-                                      NetworkImage(user!['profileImage']),
+                            Stack(
+                              children: [
+                                Positioned(
+                                  top: -5,
+                                  left: 0,
+                                  child: IconButton(
+                                    icon: const Icon(Icons.arrow_back_ios),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
                                 ),
-                              ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, top: 10, right: 10),
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.black,
+                                    radius: 46.5,
+                                    child: CircleAvatar(
+                                      radius: 45,
+                                      backgroundImage:
+                                          NetworkImage(user!['profileImage']),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                             Column(
                               children: [
